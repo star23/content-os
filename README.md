@@ -26,6 +26,12 @@ It is not another summarizer. The design premise is that **summarizing is cheap 
 judgment is expensive**, so the workflow spends most of its effort on freshness,
 deduplication, source quality, voice, and editorial boundaries.
 
+## Video walkthrough
+
+[![Watch the ContentOS video introduction](./assets/video/contentos-intro-cover.png)](https://youtu.be/LTNbRodeVzo)
+
+▶ **[Watch on YouTube: Self-improving Daily Content OS](https://youtu.be/LTNbRodeVzo)**
+
 ---
 
 ## What is in this repository
@@ -287,7 +293,9 @@ until that connector returns.
 
 ```text
 SKILL.md                              Portable workflow and reference adapters
-assets/screenshots/                   Dashboard screenshots used in this README
+assets/
+  screenshots/                        Dashboard screenshots used in this README
+  video/                              Cover for the video walkthrough
 config/
   info_sources.example.json           Working source-registry example
   topic_library.example.json          Topic-library schema
@@ -348,6 +356,12 @@ ContentOS 会读取精选 X 账号、newsletter、播客等信息源，结合你
 
 它不是又一个摘要工具。它的设计前提是：**摘要很便宜，判断很贵**。因此，工作流把主要精力
 放在时效、去重、信源质量、个人风格和编辑边界上。
+
+## 视频介绍
+
+[![观看 ContentOS 视频介绍](./assets/video/contentos-intro-cover.png)](https://youtu.be/LTNbRodeVzo)
+
+▶ **[在 YouTube 观看：我开源了一个会自我进化的 AI 内容操作系统](https://youtu.be/LTNbRodeVzo)**
 
 ---
 
@@ -585,7 +599,9 @@ $VAULT_ROOT/ContentOS/daily_brief/daily_briefing.html
 
 ```text
 SKILL.md                              可移植工作流与参考适配器
-assets/screenshots/                   README 使用的看板截图
+assets/
+  screenshots/                        README 使用的看板截图
+  video/                              视频介绍封面
 config/
   info_sources.example.json           可运行的信息源示例
   topic_library.example.json          选题库结构示例
