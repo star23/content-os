@@ -2,6 +2,9 @@
 
 **一套会自我迭代的每日情报简报系统，由 Claude Code agent 驱动。**
 
+作者 [**@starzq**](https://x.com/starzq) —— 我在 X 上写 AI、加密和美股，
+也写每天跑这套系统踩过的坑。欢迎关注。
+
 [English →](./README.md)
 
 每天早上扫描约 90 个精选 X 账号、newsletter 和播客，按你的选题库过滤，产出一份简报
@@ -161,3 +164,10 @@ examples/
 ## 许可
 
 MIT，见 [LICENSE](./LICENSE)。
+
+---
+
+## 作者
+
+[**@starzq**](https://x.com/starzq) 构建并每天实际在跑。
+你要是拿它搭出了什么，我很想看看 —— 在 X 上回我。

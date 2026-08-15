@@ -2,6 +2,9 @@
 
 **A self-improving daily intelligence briefing, run by a Claude Code agent.**
 
+Built by [**@starzq**](https://x.com/starzq) — I post about AI, crypto and US equities,
+and about what I learn running this thing every morning. Follow along.
+
 [中文文档 →](./README.zh-CN.md)
 
 Every morning it reads ~90 curated X accounts, newsletters and podcasts across your
@@ -176,3 +179,10 @@ The system is the constraints and the loop, not the data it accumulated.
 ## License
 
 MIT — see [LICENSE](./LICENSE).
+
+---
+
+## Author
+
+Built and run daily by [**@starzq**](https://x.com/starzq).
+If you build something with it, I'd like to see it — reply to me on X.
