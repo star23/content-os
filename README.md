@@ -1,6 +1,7 @@
 # ContentOS
 
-**A self-improving daily intelligence briefing, run by a Claude Code agent.**
+**A self-improving daily content system — it pulls from high-quality sources every
+morning and drafts posts and articles in your own voice. Run by a Claude Code agent.**
 
 Built by [**@starzq**](https://x.com/starzq) — I post about AI, crypto and US equities,
 and about what I learn running this thing every morning. Follow along.

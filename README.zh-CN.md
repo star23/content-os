@@ -1,6 +1,6 @@
 # ContentOS
 
-**一套会自我迭代的每日情报简报系统，由 Claude Code agent 驱动。**
+**一套会自我迭代的每日内容系统，每天自动抓取高质量新闻源，并基于你的风格生成推文和文章，由 Claude Code agent 驱动。**
 
 作者 [**@starzq**](https://x.com/starzq) —— 我在 X 上写 AI、加密和美股，
 也写每天跑这套系统踩过的坑。欢迎关注。
