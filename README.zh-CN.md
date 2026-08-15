@@ -1,4 +1,4 @@
-# Star Daily Briefing
+# ContentOS
 
 **一套会自我迭代的每日情报简报系统，由 Claude Code agent 驱动。**
 
@@ -69,14 +69,34 @@ Phase 3 只提建议不落地，是刻意的。一个会悄悄改写自己输入
 ### 前置条件
 
 - [Claude Code](https://claude.com/claude-code)
-- 一个 X/Twitter 数据源（本仓库这套用的是暴露搜索和用户时间线的 MCP server）
-- 可选：带分析数据的发布工具，供 Phase 1 使用。没有它系统会跳过学习阶段，简报照常产出。
+- 两个 MCP server —— 一个用来读世界，一个用来读你自己（见下）
+
+### 数据源
+
+系统需要两种对 X 的读取能力，这两者不能互相替代：
+
+| | 读什么 | 用在哪 |
+|---|---|---|
+| **[NewsLiquid](https://app.newsliquid.com?code=EycjLp)** | 别人的推文 —— 搜索、用户时间线，即 `info_sources.json` 里那约 90 个账号 | Phase 2（简报本身） |
+| **[Typefully](https://typefully.com/?via=star)** | 你自己的推文及其互动数据 | Phase 1（学习哪些有效） |
+
+**NewsLiquid** 提供原料。它的 MCP server 暴露搜索和逐用户时间线，信息源清单就是围绕
+这个能力设计的。调你自己的列表前值得先知道一件事：**逐账号抓取是有配额的，配额一旦触顶，
+过长的合并列表会从尾部被截断，而且不报错**。这是这套系统漏掉新闻最常见的方式。
+所以列表要短、名字要说明用途。
+
+**Typefully** 负责闭环。Phase 1 拉取你近 7 天的推文和真实互动数据，推导出哪些 Hook 生效、
+哪些失灵，写进 `profile_recent.md`，再由它给 Phase 2 的草稿定权重。没有它系统照样出简报，
+但**它不再进化**——你得到一个不错的阅读器，失去的是自我修正。
+
+> 上面两个都是作者的推荐链接。代码本身不绑定这两个服务——换成任何能抓推文和自己分析数据的
+> MCP server 都行，相应改 `SKILL.md` 的 Step 1 和 Step 4 即可。
 
 ### 1. 克隆并放置配置
 
 ```bash
-git clone https://github.com/<你>/star-daily-briefing.git
-cd star-daily-briefing
+git clone https://github.com/<你>/content-os.git
+cd content-os
 
 cp config/info_sources.example.json   config/info_sources.json
 cp config/topic_library.example.json  config/topic_library.json

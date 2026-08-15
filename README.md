@@ -1,4 +1,4 @@
-# Star Daily Briefing
+# ContentOS
 
 **A self-improving daily intelligence briefing, run by a Claude Code agent.**
 
@@ -77,15 +77,38 @@ constraints. A hook that performed well last week cannot override them.
 ### Prerequisites
 
 - [Claude Code](https://claude.com/claude-code)
-- An X/Twitter data source (this build uses an MCP server exposing search and user timelines)
-- Optional: a publishing tool with analytics, for Phase 1. Without it the system skips
-  learning and still produces briefings.
+- Two MCP servers — one to read the world, one to read yourself (details below)
+
+### Data sources
+
+The system needs two different reads on X, and they are not interchangeable:
+
+| | What it reads | Used by |
+|---|---|---|
+| **[NewsLiquid](https://app.newsliquid.com?code=EycjLp)** | Other people's posts — search, user timelines, the ~90 accounts in `info_sources.json` | Phase 2 (the briefing itself) |
+| **[Typefully](https://typefully.com/?via=star)** | Your own posts and their engagement metrics | Phase 1 (learning what worked) |
+
+**NewsLiquid** supplies the raw material. Its MCP server exposes search plus per-user
+timelines, which is what the source registry is built around. Worth knowing before you
+tune your lists: per-account fetching is quota-limited, and when the quota trips, long
+merged lists get truncated from the bottom — silently. That is the single most common
+way this system misses a story. Keep lists short and purpose-named.
+
+**Typefully** closes the loop. Phase 1 pulls your last 7 days of posts with real
+engagement numbers, derives which hooks worked and which died, and writes that into
+`profile_recent.md` — which then weights the drafts Phase 2 writes. Without it the
+system still produces briefings, but it stops learning: you get a good reader and lose
+the self-correction.
+
+> Both links above are the author's referral links. Neither service is required by the
+> code — swap in any MCP server that can fetch posts and your own analytics, and adjust
+> `SKILL.md` Step 1 and Step 4 accordingly.
 
 ### 1. Clone and place your config
 
 ```bash
-git clone https://github.com/<you>/star-daily-briefing.git
-cd star-daily-briefing
+git clone https://github.com/<you>/content-os.git
+cd content-os
 
 cp config/info_sources.example.json   config/info_sources.json
 cp config/topic_library.example.json  config/topic_library.json

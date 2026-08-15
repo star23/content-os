@@ -1,9 +1,9 @@
 {
   "meta": {
-    "description": "Information-source registry, grouped by track. Example config — replace with your own.",
+    "description": "Information-source registry, grouped by track. Working example — swap in your own.",
     "updated": "2026-08-15",
     "usage": "The daily agent scans these sources and extracts events matching your topic library.",
-    "note": "Account handles are public. Operator-specific rationale fields have been removed from this shared copy."
+    "note": "Account handles are public. Operator-specific rationale fields are removed from this shared copy."
   },
   "sources": {
     "ai_frontier": {
@@ -321,89 +321,6 @@
       ],
       "tesla_tracking_note": "Tesla 的 FSD 和 Optimus 归在此赛道追踪。信号源：@Tesla, @elonmusk, @TeslaAIBot, @WholeMarsBlog"
     },
-    "crypto_cross_finance": {
-      "track": "加密 × 美股交叉",
-      "x_lists": [
-        {
-          "name": "Crypto Builders",
-          "description": "加密基础设施和应用开发者",
-          "priority": "must_read",
-          "accounts": [
-            "@VitalikButerin",
-            "@balaboreal",
-            "@aaboreal"
-          ]
-        },
-        {
-          "name": "Ondo RWA Leader",
-          "description": "Ondo Finance 官方账号 — 代币化股票 / RWA 基建头号信号源",
-          "priority": "must_read",
-          "accounts": [
-            "@OndoFinance"
-          ],
-          "promoted_at": "2026-04-22"
-        },
-        {
-          "name": "DeFi / Stablecoin",
-          "description": "稳定币和 DeFi 生态（含 Tether CEO @paoloardoino — 个人号更新频率远超官方号）",
-          "priority": "must_read",
-          "accounts": [
-            "@CirclePay",
-            "@Tether_to",
-            "@MakerDAO",
-            "@paoloardoino"
-          ]
-        },
-        {
-          "name": "Prediction Markets",
-          "description": "预测市场生态",
-          "priority": "scan",
-          "accounts": [
-            "@Polymarket",
-            "@ManifoldMarkets"
-          ]
-        },
-        {
-          "name": "BTC 链上数据分析",
-          "description": "比特币链上数据 + 周期定位 — 中英双语组合，对位加密 × 美股交叉赛道的流动性/风险偏好传导判断",
-          "priority": "must_read",
-          "accounts": [
-            "@_Checkmatey_",
-            "@Murphychen888"
-          ],
-          "added": "2026-08-03"
-        }
-      ],
-      "newsletters": [
-        {
-          "name": "Bankless",
-          "url": "https://www.bankless.com/",
-          "frequency": "daily",
-          "priority": "must_read"
-        },
-        {
-          "name": "The Defiant",
-          "url": "https://thedefiant.io/",
-          "frequency": "daily",
-          "priority": "scan"
-        },
-        {
-          "name": "Milk Road",
-          "url": "https://www.milkroad.com/",
-          "frequency": "daily",
-          "priority": "scan"
-        }
-      ],
-      "key_signals": [
-        "稳定币法案进展",
-        "RWA代币化新项目",
-        "链上美股交易量",
-        "Agentic Payment产品发布",
-        "预测市场大事件",
-        "BTC与宏观相关性变化",
-        "加密ETF审批进展"
-      ]
-    },
     "us_stocks": {
       "track": "美股",
       "x_lists": [
@@ -491,6 +408,91 @@
         "TSLA财报及交付数据"
       ],
       "tesla_tracking_note": "Tesla 作为美股标的（$TSLA）在此赛道追踪财报、交付量、估值。信号源同 AI 前沿赛道"
+    },
+    "rwa": {
+      "track": "RWA",
+      "x_lists": [
+        {
+          "name": "Crypto Builders",
+          "description": "加密基础设施和应用开发者",
+          "priority": "must_read",
+          "accounts": [
+            "@VitalikButerin",
+            "@balaboreal",
+            "@aaboreal"
+          ]
+        },
+        {
+          "name": "Ondo RWA Leader",
+          "description": "Ondo Finance 官方账号 — 代币化股票 / RWA 基建头号信号源",
+          "priority": "must_read",
+          "accounts": [
+            "@OndoFinance"
+          ],
+          "promoted_at": "2026-04-22"
+        },
+        {
+          "name": "DeFi / Stablecoin",
+          "description": "稳定币和 DeFi 生态（含 Tether CEO @paoloardoino — 个人号更新频率远超官方号）",
+          "priority": "must_read",
+          "accounts": [
+            "@CirclePay",
+            "@Tether_to",
+            "@MakerDAO",
+            "@paoloardoino"
+          ]
+        },
+        {
+          "name": "Prediction Markets",
+          "description": "预测市场生态",
+          "priority": "scan",
+          "accounts": [
+            "@Polymarket",
+            "@ManifoldMarkets"
+          ]
+        },
+        {
+          "name": "BTC 链上数据分析",
+          "description": "比特币链上数据 + 周期定位 — 中英双语组合，对位加密 × 美股交叉赛道的流动性/风险偏好传导判断",
+          "priority": "must_read",
+          "accounts": [
+            "@_Checkmatey_",
+            "@Murphychen888"
+          ],
+          "added": "2026-08-03"
+        }
+      ],
+      "newsletters": [
+        {
+          "name": "Bankless",
+          "url": "https://www.bankless.com/",
+          "frequency": "daily",
+          "priority": "must_read"
+        },
+        {
+          "name": "The Defiant",
+          "url": "https://thedefiant.io/",
+          "frequency": "daily",
+          "priority": "scan"
+        },
+        {
+          "name": "Milk Road",
+          "url": "https://www.milkroad.com/",
+          "frequency": "daily",
+          "priority": "scan"
+        }
+      ],
+      "key_signals": [
+        "稳定币法案进展",
+        "RWA代币化新项目",
+        "链上美股交易量",
+        "Agentic Payment产品发布",
+        "预测市场大事件",
+        "BTC与宏观相关性变化",
+        "加密ETF审批进展"
+      ],
+      "renamed_at": "2026-08-15",
+      "renamed_from": "加密 × 美股 (crypto_cross_finance)"
     },
     "space_economy": {
       "track": "太空经济",
@@ -583,7 +585,7 @@
     }
   },
   "cross_domain_signals": {
-    "description": "跨领域交叉信号 — 你的差异化来源，优先级最高",
+    "description": "跨赛道交叉信号 — 差异化来源，优先级最高 / Cross-track signals: the differentiator, highest priority",
     "watch_for": [
       "AI × Crypto: Agent 支付、AI 生成的链上内容、去中心化 AI 训练",
       "AI × 美股: AI 公司财报、AI 对传统产业的估值影响",
