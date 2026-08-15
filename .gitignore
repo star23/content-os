@@ -1,0 +1,14 @@
+# Never commit the operator's own data
+profile_longterm.md
+profile_recent.md
+profile_recent_archive.md
+config/info_sources.json
+config/topic_library.json
+daily_data.json
+daily_brief/
+*.local.*
+
+.DS_Store
+__pycache__/
+*.pyc
+.env

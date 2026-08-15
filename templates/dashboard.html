@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Star Daily Briefing — 每日创作指挥中心</title>
+<style>
+:root {
+  --bg: #f4f5f7;
+  --card: #ffffff;
+  --card-hover: #fafbfc;
+  --border: #e2e4e9;
+  --text: #1a1b26;
+  --text-dim: #6b7280;
+  --text-muted: #9ca3af;
+  --accent: #6366f1;
+  --accent2: #4f46e5;
+  --accent-bg: rgba(99,102,241,0.06);
+  --green: #059669;
+  --green-bg: rgba(5,150,105,0.08);
+  --red: #dc2626;
+  --red-bg: rgba(220,38,38,0.08);
+  --orange: #ea580c;
+  --orange-bg: rgba(234,88,12,0.08);
+  --blue: #2563eb;
+  --blue-bg: rgba(37,99,235,0.08);
+  --purple: #7c3aed;
+  --purple-bg: rgba(124,58,237,0.08);
+  --yellow: #d97706;
+  --yellow-bg: rgba(217,119,6,0.08);
+  --cyan: #0891b2;
+  --cyan-bg: rgba(8,145,178,0.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.04);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.6;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+}
+.header-left h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+.header-left h1 span { color: var(--accent); }
+.header-left .subtitle { color: var(--text-dim); font-size: 14px; margin-top: 2px; }
+.header-right { display: flex; gap: 8px; align-items: center; }
+.date-display {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 16px; font-size: 14px; color: var(--accent); font-weight: 600; box-shadow: var(--shadow);
+}
+.day-quality { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.day-quality.high { background: var(--green-bg); color: var(--green); }
+.day-quality.medium { background: var(--yellow-bg); color: var(--yellow); }
+.day-quality.low { background: var(--red-bg); color: var(--red); }
+.data-status {
+  font-size: 12px; padding: 4px 10px; border-radius: 12px; font-weight: 500;
+}
+.data-status.loaded { background: var(--green-bg); color: var(--green); }
+.data-status.empty { background: var(--yellow-bg); color: var(--yellow); }
+
+/* Nav */
+.nav-tabs {
+  display: flex; gap: 4px; background: var(--card); border-radius: var(--radius);
+  padding: 4px; margin-bottom: 24px; border: 1px solid var(--border);
+  overflow-x: auto; box-shadow: var(--shadow);
+}
+.nav-tab {
+  padding: 10px 20px; border-radius: var(--radius-sm); cursor: pointer;
+  font-size: 14px; font-weight: 500; color: var(--text-dim);
+  border: none; background: transparent; transition: all 0.2s; white-space: nowrap;
+}
+.nav-tab:hover { color: var(--text); background: rgba(0,0,0,0.03); }
+.nav-tab.active { background: var(--accent); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Stats */
+.stats-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px; margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow);
+}
+.stat-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+.stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* Cards */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.section-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+}
+.section-card:hover { box-shadow: var(--shadow-md); }
+.section-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section-title .icon { font-size: 20px; }
+
+/* Topic Card */
+.topic-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px; margin-bottom: 10px;
+  transition: all 0.2s; cursor: pointer;
+}
+.topic-card:hover { background: var(--accent-bg); border-color: rgba(99,102,241,0.3); }
+.topic-card:last-child { margin-bottom: 0; }
+.topic-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+.topic-title { font-size: 14px; font-weight: 600; flex: 1; }
+.topic-heat { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; flex-shrink: 0; margin-left: 8px; }
+.topic-heat.high { background: var(--red-bg); color: var(--red); }
+.topic-heat.medium { background: var(--yellow-bg); color: var(--yellow); }
+.topic-heat.low { background: var(--blue-bg); color: var(--blue); }
+.topic-angle { font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.topic-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--accent-bg); color: var(--accent); }
+.tag.format { background: var(--purple-bg); color: var(--purple); }
+.tag.track { background: var(--cyan-bg); color: var(--cyan); }
+
+/* Must-read item */
+.must-read-item {
+  display: flex; gap: 12px; padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.must-read-item:last-child { border-bottom: none; }
+.must-read-num {
+  width: 24px; height: 24px; border-radius: 50%; background: var(--accent);
+  color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; margin-top: 2px;
+}
+.must-read-body { flex: 1; }
+.must-read-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.must-read-title a { color: var(--accent); text-decoration: none; }
+.must-read-title a:hover { text-decoration: underline; }
+.must-read-summary { font-size: 13px; color: var(--text-dim); margin-bottom: 4px; }
+.must-read-tags { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.pub-time { font-size: 11px; color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px; margin-left: 4px; }
+.age-badge { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.3px; }
+.age-badge.fresh { background: var(--green-bg); color: var(--green); }
+.age-badge.warn  { background: var(--yellow-bg); color: var(--yellow); }
+.age-badge.stale { background: var(--red-bg); color: var(--red); }
+.age-badge.stale::before { content: '⚠ '; }
+
+/* Draft Card */
+.draft-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px; margin-bottom: 12px; position: relative;
+}
+.draft-card:last-child { margin-bottom: 0; }
+.draft-number {
+  position: absolute; top: -8px; left: 14px;
+  background: var(--accent); color: #fff; font-size: 11px; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+}
+.draft-meta { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+.draft-text {
+  font-size: 14px; line-height: 1.7; color: var(--text);
+  white-space: pre-line; border-left: 3px solid var(--accent); padding-left: 12px;
+  background: rgba(99,102,241,0.03); border-radius: 0 6px 6px 0; padding: 12px;
+}
+.draft-reasoning {
+  font-size: 12px; color: var(--text-dim); margin-top: 8px;
+  padding: 8px 12px; background: var(--accent-bg); border-radius: 6px;
+}
+.draft-actions { display: flex; gap: 8px; margin-top: 10px; }
+.btn-sm {
+  padding: 6px 14px; border-radius: 6px; font-size: 12px; border: none;
+  cursor: pointer; font-weight: 500; transition: all 0.2s;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent2); }
+.btn-typefully { background: #1a8cd8; color: #fff; }
+.btn-typefully:hover { background: #1578b8; }
+.btn-ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); border-color: var(--text-dim); }
+
+/* Typefully Banner */
+.typefully-banner {
+  background: linear-gradient(135deg, rgba(26,140,216,0.08), rgba(99,102,241,0.08));
+  border: 1px solid rgba(26,140,216,0.2); border-radius: var(--radius);
+  padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.typefully-banner-text { font-size: 13px; color: var(--text-dim); }
+.typefully-banner-text strong { color: var(--text); }
+
+/* Source Item */
+.source-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.source-item:last-child { border-bottom: none; }
+.source-priority { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.source-priority.must_read { background: var(--red); }
+.source-priority.scan { background: var(--yellow); }
+.source-name { font-size: 13px; font-weight: 500; flex: 1; }
+.source-freq { font-size: 12px; color: var(--text-muted); }
+.source-link { font-size: 12px; color: var(--accent); text-decoration: none; }
+.source-link:hover { text-decoration: underline; }
+
+/* X List Card */
+.xlist-card {
+  display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+  background: var(--bg); border-radius: 6px; margin-bottom: 6px;
+  border: 1px solid var(--border);
+}
+.xlist-card:last-child { margin-bottom: 0; }
+.xlist-icon { font-size: 16px; }
+.xlist-name { font-size: 13px; font-weight: 500; flex: 1; }
+.xlist-accounts { font-size: 11px; color: var(--text-muted); }
+
+/* Signal */
+.signal-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; }
+.signal-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; background: var(--accent); }
+.signal-text { font-size: 13px; color: var(--text-dim); }
+
+/* Week Grid */
+.week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+.day-cell {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 8px; text-align: center;
+}
+.day-cell.today { border-color: var(--accent); background: var(--accent-bg); box-shadow: 0 0 0 1px var(--accent); }
+.day-cell.high-priority { border-left: 3px solid var(--green); }
+.day-cell.medium-priority { border-left: 3px solid var(--yellow); }
+.day-cell.low-priority { border-left: 3px solid var(--red); }
+.day-name { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+.day-focus { font-size: 11px; color: var(--text-dim); }
+.day-impressions { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+/* Rule Card */
+.rule-card {
+  background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(124,58,237,0.05));
+  border: 1px solid rgba(99,102,241,0.15); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 24px;
+}
+.rule-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--accent); }
+.rule-list { list-style: none; }
+.rule-list li {
+  padding: 6px 0; font-size: 13px; color: var(--text-dim);
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.rule-list li::before { content: "→"; color: var(--accent); flex-shrink: 0; }
+
+/* Hook */
+.hook-section { margin-bottom: 16px; }
+.hook-label { font-size: 12px; color: var(--text-dim); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.hook-item {
+  font-size: 13px; color: var(--text); padding: 8px 12px;
+  background: var(--bg); border-radius: 6px; margin-bottom: 4px;
+  border-left: 2px solid var(--accent); cursor: pointer; transition: all 0.15s;
+}
+.hook-item:hover { background: var(--accent-bg); }
+
+/* Cross Opportunity */
+.cross-card {
+  background: linear-gradient(135deg, rgba(8,145,178,0.04), rgba(99,102,241,0.04));
+  border: 1px solid rgba(8,145,178,0.15); border-radius: var(--radius-sm);
+  padding: 12px; margin-bottom: 8px;
+}
+.cross-card:last-child { margin-bottom: 0; }
+.cross-label { font-size: 11px; color: var(--cyan); font-weight: 600; margin-bottom: 4px; }
+.cross-text { font-size: 13px; color: var(--text-dim); }
+
+/* Track Section */
+.track-section { margin-bottom: 20px; }
+.track-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.track-icon { font-size: 20px; }
+.track-name { font-size: 16px; font-weight: 600; }
+.track-badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--accent-bg); color: var(--accent); }
+
+/* Empty State */
+.empty-state {
+  text-align: center; padding: 40px 20px; color: var(--text-dim);
+}
+.empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: var(--text); margin-bottom: 8px; }
+.empty-state p { font-size: 13px; max-width: 400px; margin: 0 auto; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .week-grid { grid-template-columns: repeat(4, 1fr); }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ===== Typefully Modal ===== */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 9999; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 14px; padding: 28px; width: 560px;
+  max-width: 95vw; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  animation: slideUp 0.2s ease;
+}
+@keyframes slideUp { from { transform: translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+.modal-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.modal-subtitle { font-size: 13px; color: #6b7280; margin-bottom: 14px; }
+.modal-textarea {
+  width: 100%; min-height: 140px; padding: 12px; border: 1.5px solid #e2e4e9;
+  border-radius: 8px; font-size: 14px; line-height: 1.7; resize: vertical;
+  white-space: pre-wrap; font-family: inherit; outline: none;
+}
+.modal-textarea:focus { border-color: #6366f1; }
+.modal-actions { display: flex; gap: 10px; margin-top: 14px; justify-content: flex-end; }
+.modal-note {
+  font-size: 12px; color: #6b7280; background: #f4f5f7; border-radius: 8px;
+  padding: 10px 12px; margin-top: 12px; line-height: 1.6;
+}
+.modal-note strong { color: #374151; }
+.btn-close-modal { background: transparent; border: 1.5px solid #e2e4e9; color: #6b7280;
+  padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 13px; }
+.btn-close-modal:hover { background: #f4f5f7; }
+.btn-copy-modal { background: #6366f1; color: #fff; border: none;
+  padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; }
+.btn-copy-modal:hover { background: #4f46e5; }
+.btn-typefully-real { background: #1a8cd8; color: #fff; border: none;
+  padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; }
+.btn-typefully-real:hover { background: #1570b8; }
+.copy-success { background: #059669 !important; }
+
+/* Market Snapshot Card (Day1 Global) */
+.market-snapshot-body { display: grid; gap: 16px; }
+.market-snapshot-top { display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 16px; }
+@media (max-width: 760px) { .market-snapshot-top { grid-template-columns: 1fr; } }
+.btc-score-box {
+  background: linear-gradient(135deg, rgba(99,102,241,0.10), rgba(99,102,241,0.02));
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 16px; display: flex; flex-direction: column; justify-content: center;
+}
+.btc-score-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+.btc-score-value { font-size: 36px; font-weight: 700; line-height: 1; color: var(--accent); margin-top: 4px; }
+.btc-score-level { font-size: 14px; font-weight: 600; margin-top: 8px; }
+.btc-score-suggestion { font-size: 12px; color: var(--text-dim); margin-top: 6px; line-height: 1.5; }
+.btc-score-sub { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+.market-sub-header { font-size: 13px; font-weight: 600; color: var(--text-dim); margin-bottom: 8px; }
+.macro-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+.macro-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; }
+.macro-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.3px; }
+.macro-value { font-size: 15px; font-weight: 600; margin-top: 2px; }
+.macro-change { font-size: 12px; margin-top: 2px; }
+.macro-change.positive, .ticker-change.positive { color: var(--green); }
+.macro-change.negative, .ticker-change.negative { color: var(--red); }
+.macro-change.neutral, .ticker-change.neutral { color: var(--text-dim); }
+.ticker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.ticker-cell {
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 10px; transition: all 0.15s;
+}
+.ticker-cell:hover { border-color: var(--accent); background: var(--accent-bg); }
+.ticker-symbol { font-size: 12px; font-weight: 700; letter-spacing: 0.3px; }
+.ticker-price { font-size: 13px; font-weight: 600; margin-top: 2px; }
+.ticker-change { font-size: 11px; margin-top: 1px; }
+.btc-onchain-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.btc-onchain-cell { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; }
+.btc-onchain-label { font-size: 11px; color: var(--text-dim); }
+.btc-onchain-value { font-size: 14px; font-weight: 600; margin-top: 2px; }
+.market-snapshot-error {
+  background: var(--red-bg); color: var(--red); padding: 12px;
+  border-radius: var(--radius-sm); font-size: 13px;
+}
+.ticker-state-pre, .ticker-state-post { opacity: 0.75; }
+.ticker-state-pre::after { content: " 盘前"; font-size: 9px; color: var(--text-muted); }
+.ticker-state-post::after { content: " 盘后"; font-size: 9px; color: var(--text-muted); }
+.ticker-state-closed::after { content: " 休市"; font-size: 9px; color: var(--text-muted); }
+
+/* Published This Week (Typefully) */
+.published-summary {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px; margin-bottom: 16px;
+}
+.published-summary .stat-card { padding: 12px 14px; }
+.published-controls {
+  display: flex; gap: 8px; align-items: center;
+  margin-bottom: 12px; font-size: 13px; color: var(--text-dim); flex-wrap: wrap;
+}
+.published-sort-btn {
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 4px 10px; font-size: 12px; cursor: pointer; color: var(--text-dim);
+}
+.published-sort-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.published-sort-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+.published-post-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 16px; margin-bottom: 10px; transition: all 0.15s;
+}
+.published-post-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
+.published-post-card.top-performer { border-left: 3px solid var(--accent); }
+.published-post-header {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: var(--text-dim); margin-bottom: 8px; flex-wrap: wrap;
+}
+.published-post-date { font-weight: 600; }
+.published-post-impressions {
+  margin-left: auto; font-size: 14px; font-weight: 700; color: var(--accent);
+}
+.published-post-text {
+  font-size: 14px; line-height: 1.6; color: var(--text);
+  white-space: pre-wrap; word-break: break-word;
+  max-height: 7.5em; overflow: hidden; position: relative;
+}
+.published-post-text.expanded { max-height: none; }
+.published-post-text:not(.expanded)::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2em;
+  background: linear-gradient(180deg, rgba(255,255,255,0), var(--card));
+  pointer-events: none;
+}
+.published-post-metrics {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
+  padding-top: 10px; border-top: 1px dashed var(--border);
+}
+.metric-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px; border-radius: 10px; font-size: 11px; font-weight: 600;
+  background: var(--bg); border: 1px solid var(--border); color: var(--text-dim);
+}
+.metric-badge.likes { background: rgba(220,38,38,0.06); color: var(--red); border-color: rgba(220,38,38,0.15); }
+.metric-badge.saves { background: rgba(99,102,241,0.06); color: var(--accent); border-color: rgba(99,102,241,0.15); }
+.metric-badge.shares { background: rgba(5,150,105,0.06); color: var(--green); border-color: rgba(5,150,105,0.15); }
+.metric-badge.comments { background: rgba(8,145,178,0.06); color: var(--cyan); border-color: rgba(8,145,178,0.15); }
+.metric-badge.quotes { background: rgba(217,119,6,0.06); color: var(--yellow); border-color: rgba(217,119,6,0.15); }
+.metric-badge.total { background: var(--accent-bg); color: var(--accent); border-color: rgba(99,102,241,0.25); font-weight: 700; }
+.published-post-footer {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 10px; font-size: 12px;
+}
+.published-post-footer a {
+  color: var(--accent); text-decoration: none; font-weight: 500;
+}
+.published-post-footer a:hover { text-decoration: underline; }
+.published-expand-btn {
+  background: none; border: none; color: var(--accent); cursor: pointer;
+  font-size: 12px; padding: 0;
+}
+
+/* 💡 System Suggestions (Phase 3 meta-feedback) */
+.suggestion-group { margin-bottom: 12px; }
+.suggestion-group-header {
+  font-size: 13px; font-weight: 600; color: var(--text-dim);
+  margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+}
+.suggestion-item {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 8px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.suggestion-action {
+  font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px;
+  text-transform: uppercase; letter-spacing: 0.3px; flex-shrink: 0;
+}
+.suggestion-action.promote, .suggestion-action.add {
+  background: var(--green-bg); color: var(--green);
+}
+.suggestion-action.demote, .suggestion-action.archive {
+  background: var(--orange-bg); color: var(--orange);
+}
+.suggestion-action.drift {
+  background: var(--purple-bg); color: var(--purple);
+}
+.suggestion-body { flex: 1; }
+.suggestion-target { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.suggestion-reason { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+.suggestion-confidence {
+  font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 6px;
+  margin-left: 8px; text-transform: uppercase;
+}
+.suggestion-confidence.high { background: var(--green-bg); color: var(--green); }
+.suggestion-confidence.medium { background: var(--yellow-bg); color: var(--yellow); }
+.suggestion-confidence.low { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+.suggestions-summary-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px; margin-bottom: 16px;
+}
+.suggestion-empty {
+  font-size: 12px; color: var(--text-muted); padding: 8px;
+  text-align: center; font-style: italic;
+}
+.suggestion-actions {
+  display: flex; gap: 6px; margin-left: auto; flex-shrink: 0;
+}
+.suggestion-btn {
+  font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px;
+  border: 1px solid var(--border); background: var(--card); cursor: pointer;
+  transition: all 0.15s;
+}
+.suggestion-btn.adopt { color: var(--green); border-color: rgba(5,150,105,0.3); }
+.suggestion-btn.adopt:hover { background: var(--green-bg); }
+.suggestion-btn.ignore { color: var(--text-muted); }
+.suggestion-btn.ignore:hover { background: var(--bg); color: var(--red); border-color: rgba(220,38,38,0.3); }
+.suggestion-item.adopted { opacity: 0.6; background: rgba(5,150,105,0.04); }
+.suggestion-item.adopted .suggestion-target::after {
+  content: ' ✓ 已采纳'; font-size: 10px; color: var(--green); font-weight: 700; margin-left: 6px;
+}
+.suggestion-item.ignored { opacity: 0.4; background: var(--bg); }
+.suggestion-item.ignored .suggestion-target::after {
+  content: ' ✕ 已忽略'; font-size: 10px; color: var(--text-muted); font-weight: 700; margin-left: 6px;
+}
+/* Adopt modal */
+.adopt-modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 9999; align-items: center; justify-content: center; padding: 20px;
+}
+.adopt-modal-overlay.show { display: flex; }
+.adopt-modal {
+  background: var(--card); border-radius: var(--radius); max-width: 640px; width: 100%;
+  max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+.adopt-modal-header {
+  padding: 18px 24px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.adopt-modal-title { font-size: 18px; font-weight: 700; }
+.adopt-modal-close {
+  margin-left: auto; background: none; border: none; cursor: pointer;
+  font-size: 22px; color: var(--text-muted); padding: 0;
+}
+.adopt-modal-body { padding: 20px 24px; }
+.adopt-modal-row { margin-bottom: 14px; }
+.adopt-modal-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; }
+.adopt-modal-value { font-size: 14px; font-family: ui-monospace, 'SF Mono', Monaco, monospace; background: var(--bg); padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); word-break: break-all; }
+.adopt-modal-instruction { font-size: 14px; line-height: 1.6; color: var(--text); }
+.adopt-modal-snippet {
+  font-family: ui-monospace, 'SF Mono', Monaco, monospace; font-size: 12px;
+  background: var(--bg); padding: 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); white-space: pre; overflow-x: auto;
+  max-height: 240px; overflow-y: auto;
+}
+.adopt-modal-actions {
+  display: flex; gap: 8px; padding: 16px 24px; border-top: 1px solid var(--border);
+  background: var(--bg); border-radius: 0 0 var(--radius) var(--radius);
+}
+.adopt-modal-btn {
+  padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border);
+}
+.adopt-modal-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.adopt-modal-btn.primary:hover { background: var(--accent2); }
+.adopt-modal-btn.secondary { background: var(--card); color: var(--text); }
+.adopt-modal-btn.secondary:hover { background: var(--bg); }
+.adopt-modal-btn.success-state { background: var(--green); color: #fff; border-color: var(--green); }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="header-left">
+    <h1>📡 Star <span>Daily Briefing</span></h1>
+    <div class="subtitle">每日创作指挥中心 — AI × Web3 × 美股桥梁建设者</div>
+  </div>
+  <div class="header-right">
+    <span class="data-status" id="dataStatus"></span>
+    <div class="date-display" id="dateDisplay"></div>
+    <div class="day-quality" id="dayQuality"></div>
+  </div>
+</header>
+
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('briefing')">📋 今日简报</button>
+  <button class="nav-tab" onclick="switchTab('market')">💼 仓位快照</button>
+  <button class="nav-tab" onclick="switchTab('topics')">🎯 选题推荐</button>
+  <button class="nav-tab" onclick="switchTab('drafts')">✍️ 推文草稿</button>
+  <button class="nav-tab" onclick="switchTab('published')">📈 本周已发布</button>
+  <button class="nav-tab" onclick="switchTab('library')">📚 选题库</button>
+  <button class="nav-tab" onclick="switchTab('sources')">📡 信息源</button>
+  <button class="nav-tab" onclick="switchTab('rhythm')">📊 发布节奏</button>
+  <button class="nav-tab" onclick="switchTab('suggestions')">💡 系统建议</button>
+</div>
+
+<!-- ===== TAB 1: 今日简报 ===== -->
+<div class="tab-content active" id="tab-briefing">
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">今日必看</div>
+      <div class="stat-value" style="color:var(--accent)" id="mustReadCount">—</div>
+      <div class="stat-sub">24h 内关键事件</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">推荐选题</div>
+      <div class="stat-value" style="color:var(--green)" id="topicCount">—</div>
+      <div class="stat-sub">基于热点 + 定位匹配</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">待发草稿</div>
+      <div class="stat-value" style="color:var(--blue)" id="draftCount">—</div>
+      <div class="stat-sub">可直接发布或编辑</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">发布日质量</div>
+      <div class="stat-value" id="dayQualityText">—</div>
+      <div class="stat-sub" id="dayAdvice"></div>
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <h3>⚡ 今日发布策略</h3>
+    <ul class="rule-list" id="todayStrategy"></ul>
+  </div>
+
+  <!-- 今日必看 20 条 -->
+  <div class="section-card" style="margin-bottom:24px">
+    <div class="section-title"><span class="icon">🔥</span> 今日必看（过去 24-48 小时 · Top 20）</div>
+    <div id="mustReadContainer">
+      <div class="empty-state">
+        <div class="icon">📡</div>
+        <h3>等待数据加载</h3>
+        <p>定时任务每天 8:00 自动运行，或在 Cowork 中手动运行 star-daily-briefing 任务来生成今日数据。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 延伸阅读 -->
+  <div class="section-card" style="margin-bottom:24px">
+    <div class="section-title">
+      <span class="icon">📖</span> 延伸阅读
+      <span id="alsoWorthCount" style="margin-left:auto;font-size:12px;color:var(--text-dim);font-weight:400"></span>
+    </div>
+    <div id="alsoWorthContainer">
+      <div class="empty-state">
+        <div class="icon">📖</div>
+        <h3>等待数据加载</h3>
+        <p>20 条必看之外，AI 认为也值得了解的内容。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- duplicate removed, using 延伸阅读 section above -->
+
+  <!-- 跨领域机会 -->
+  <div class="section-card">
+    <div class="section-title"><span class="icon">🌉</span> 跨领域机会（高转化）</div>
+    <div id="crossContainer">
+      <div class="empty-state">
+        <div class="icon">🌉</div>
+        <h3>等待数据加载</h3>
+        <p>跨领域机会由定时任务根据当天热点自动生成。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB: 今日仓位快照 (Day1 Global) ===== -->
+<div class="tab-content" id="tab-market">
+  <div class="section-card" id="marketSnapshotCard">
+    <div class="section-title">
+      <span class="icon">💼</span> 今日仓位快照
+      <span style="margin-left:auto;font-size:12px;color:var(--text-dim);font-weight:400">
+        数据源:
+        <a href="https://brief.day1global.xyz" target="_blank" style="color:var(--accent);text-decoration:none">Day1 Global ↗</a><span id="marketSnapshotTs"></span>
+      </span>
+    </div>
+    <div class="market-snapshot-body" id="marketSnapshotBody">
+      <div class="empty-state">
+        <div class="icon">📊</div>
+        <h3>等待市场数据</h3>
+        <p>每日 07:00 由定时任务从 brief.day1global.xyz 拉取（含宏观指数、F&G、BTC 评分、关注标的）</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 2: 选题推荐 ===== -->
+<div class="tab-content" id="tab-topics">
+  <div class="cards-grid">
+    <div class="section-card">
+      <div class="section-title"><span class="icon">🎯</span> 今日推荐选题</div>
+      <div id="todayTopics">
+        <div class="empty-state">
+          <div class="icon">🎯</div>
+          <h3>等待数据加载</h3>
+          <p>选题由定时任务根据当天热点 + 你的选题库自动匹配生成。</p>
+        </div>
+      </div>
+    </div>
+    <div class="section-card">
+      <div class="section-title"><span class="icon">💡</span> Hook 灵感池</div>
+      <div>
+        <div class="hook-section">
+          <div class="hook-label">🛠️ 工具分享类（你的超级武器 — 1,268 avg bookmarks）</div>
+          <div class="hook-item">不满意现有的 XX 工具，所以用 Claude 自己造了一个，开源了</div>
+          <div class="hook-item">用了 3 天 AI 帮我做了 XX，效果比付费工具还好</div>
+          <div class="hook-item">一个人怎么做 XX？我造了一个自动化工具</div>
+        </div>
+        <div class="hook-section">
+          <div class="hook-label">🔥 辣评类（抓注意力）</div>
+          <div class="hook-item">所有人都在讨论 XX，但真正重要的是 YY</div>
+          <div class="hook-item">一个不受欢迎的观点：XX 可能是今年最被高估/低估的趋势</div>
+          <div class="hook-item">XX 的本质不是 YY，而是 ZZ</div>
+        </div>
+        <div class="hook-section">
+          <div class="hook-label">📊 框架提炼类（赚收藏）</div>
+          <div class="hook-item">看了 50 篇 XX 报告，提炼出 3 个关键框架</div>
+          <div class="hook-item">为什么 XX 注定会 YY：一个反直觉的框架</div>
+          <div class="hook-item">XX 赛道全景图：谁在领跑、谁在掉队</div>
+        </div>
+        <div class="hook-section">
+          <div class="hook-label">🌉 桥梁型（你的独特优势 — 230 avg new follows）</div>
+          <div class="hook-item">硅谷正在发生一件中文世界还没注意到的事</div>
+          <div class="hook-item">这个英文社区的共识，跟中文圈的理解完全相反</div>
+          <div class="hook-item">美国坐庄 XX, 东大押注 YY — 背后的逻辑是…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB: 推文草稿 ===== -->
+<div class="tab-content" id="tab-drafts">
+  <div class="typefully-banner" id="typefullyBanner">
+    <div class="typefully-banner-text">
+      <strong>Typefully 集成</strong> — 点击草稿下方的「加入 Typefully」按钮，在 Cowork 中自动创建草稿到你的发布队列
+    </div>
+  </div>
+
+  <div class="rule-card" style="margin-bottom:16px">
+    <h3>✍️ 今日推文草稿</h3>
+    <p style="font-size:13px;color:var(--text-dim);margin-top:4px">3 条根据今日热点、Star 长期风格 + 近期有效 Hook 生成的推文候选</p>
+  </div>
+  <div id="draftsContainer">
+    <div class="empty-state">
+      <div class="icon">✍️</div>
+      <h3>等待数据加载</h3>
+      <p>推文草稿由定时任务根据当天热点 + 你的写作风格自动生成。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB: 本周已发布 (Typefully) ===== -->
+<div class="tab-content" id="tab-published">
+  <div class="section-card" id="publishedCard">
+    <div class="section-title">
+      <span class="icon">📈</span> 本周已发布
+      <span style="margin-left:auto;font-size:12px;color:var(--text-dim);font-weight:400">
+        数据源: <a href="https://typefully.com" target="_blank" style="color:var(--accent);text-decoration:none">Typefully ↗</a><span id="publishedPeriod"></span>
+      </span>
+    </div>
+    <div id="publishedSummary"></div>
+    <div id="publishedContainer">
+      <div class="empty-state">
+        <div class="icon">📈</div>
+        <h3>等待数据加载</h3>
+        <p>每日 07:00 从 Typefully 拉取过去 7 天的已发布推文和真实互动数据（曝光/点赞/保存/评论/转发/引用）。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 4: 选题库 ===== -->
+<div class="tab-content" id="tab-library">
+  <div class="rule-card">
+    <h3>📚 长期选题库</h3>
+    <ul class="rule-list">
+      <li>18 个常青选题，分布在 5 个核心赛道 — 你的「内容资产」</li>
+      <li>每当有新事件，定时任务会自动匹配到对应选题，提示你「这个可以写了」</li>
+      <li>热度标签根据近期话题密度和你的发布记录动态更新</li>
+    </ul>
+  </div>
+  <div id="topicLibrary"></div>
+</div>
+
+<!-- ===== TAB 5: 信息源 ===== -->
+<div class="tab-content" id="tab-sources">
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">X/Twitter 关注</div>
+      <div class="stat-value" style="color:var(--blue)">90</div>
+      <div class="stat-sub">21 个列表，按赛道分类</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Must Read 订阅</div>
+      <div class="stat-value" style="color:var(--red)">18</div>
+      <div class="stat-sub">Newsletter + Blog + Podcast</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Scan 订阅</div>
+      <div class="stat-value" style="color:var(--yellow)">17</div>
+      <div class="stat-sub">Newsletter + Podcast，按需深入</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">跨领域交叉信号</div>
+      <div class="stat-value" style="color:var(--cyan)">7</div>
+      <div class="stat-sub">含 Tesla 多赛道追踪</div>
+    </div>
+  </div>
+  <div class="cards-grid" id="sourcesGrid"></div>
+</div>
+
+<!-- ===== TAB 6: 发布节奏 ===== -->
+<div class="tab-content" id="tab-rhythm">
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">每日目标</div><div class="stat-value" style="color:var(--accent)">3-5条</div><div class="stat-sub">深度长推 + 短评 + 转评混合</div></div>
+    <div class="stat-card"><div class="stat-label">每周必发</div><div class="stat-value" style="color:var(--green)">1条</div><div class="stat-sub">工具分享类 = 你的信任货币</div></div>
+    <div class="stat-card"><div class="stat-label">黄金发布日</div><div class="stat-value" style="color:var(--yellow)">周一二三</div><div class="stat-sub">163k vs 5.4k avg impressions</div></div>
+    <div class="stat-card"><div class="stat-label">避开日</div><div class="stat-value" style="color:var(--red)">周四</div><div class="stat-sub">历史最低表现，只发轻内容</div></div>
+  </div>
+  <div class="section-card" style="margin-bottom:24px">
+    <div class="section-title"><span class="icon">📅</span> 本周发布节奏</div>
+    <div class="week-grid" id="weekGrid"></div>
+  </div>
+  <div class="cards-grid">
+    <div class="section-card">
+      <div class="section-title"><span class="icon">🎨</span> 内容格式表现力排行</div>
+      <div id="formatRanking"></div>
+    </div>
+    <div class="section-card">
+      <div class="section-title"><span class="icon">📏</span> 黄金法则</div>
+      <ul class="rule-list">
+        <li>每周至少 1 条「工具分享」类内容 — 这是你的信任货币（1,268 avg bookmarks）</li>
+        <li>周一/周二集中发「重磅」内容（工具分享、数据驱动），周三发「辣评」</li>
+        <li>周四只发轻量互动内容，不要浪费重磅选题</li>
+        <li>每周确保 5 个赛道至少覆盖 3 个，避免内容同质化</li>
+        <li>每 2 周至少 1 条「桥梁型」跨领域内容 — 粉丝转化率最高</li>
+        <li>新模型/重大事件发布 48h 内出内容，时效性是流量入口</li>
+        <li>有料的犀利开头 + 分析支撑 = 你的内容公式</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 7: 系统建议 (Phase 3 元反馈) ===== -->
+<div class="tab-content" id="tab-suggestions">
+  <div class="rule-card" style="margin-bottom:16px">
+    <h3>💡 系统建议</h3>
+    <p style="font-size:13px;color:var(--text-dim);margin-top:4px">
+      基于近期表现 + 采集结果，自动生成的信息源 / 选题库 / 定位漂移建议。
+      <strong>建议不会自动应用</strong> — 采纳时手动修改对应 json 文件。
+    </p>
+  </div>
+
+  <div id="suggestionsSummary"></div>
+
+  <div class="section-card" style="margin-bottom:16px">
+    <div class="section-title"><span class="icon">📡</span> 信息源调整建议</div>
+    <div id="suggestionsSources">
+      <div class="empty-state"><div class="icon">📡</div><h3>等待数据</h3><p>Step 9 会分析本周触发高表现推文的账号来源。</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" style="margin-bottom:16px">
+    <div class="section-title"><span class="icon">📚</span> 选题库调整建议</div>
+    <div id="suggestionsTopics">
+      <div class="empty-state"><div class="icon">📚</div><h3>等待数据</h3><p>Step 9 会识别休眠选题（30+ 天未匹配）和涌现主题（高频出现未入库）。</p></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title"><span class="icon">🧭</span> 长期定位漂移观察</div>
+    <div id="suggestionsDrift">
+      <div class="empty-state"><div class="icon">🧭</div><h3>等待数据</h3><p>如果 profile_recent 反复提到 profile_longterm 未列的主题，Step 9 会提醒你。</p></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ============ DATA ============
+// Embedded by injection (Step 8) — real values replace these nulls at inject time
+const _embeddedTopicLibrary = {}; // injected at build time by SKILL Step 8
+const _embeddedInfoSources = {}; // injected at build time by SKILL Step 8
+
+// Fallback hardcoded values (used if JSON embedding absent — e.g., dev preview)
+const _fallbackTopicLibrary = {
+  tracks: [
+    { id:"ai-frontier", name:"AI 前沿", icon:"🤖", priority:1, performance:"稳定高表现，90k+ 平均曝光",
+      topics: [
+        { title:"AI Agent 生态演进", angle:"从工具到生态：Agent 如何重塑软件产业链", heat:"high", format:"深度分析", keywords:["AI Agent","MCP","Agent框架"] },
+        { title:"大模型军备竞赛", angle:"每次新模型发布的第一手体验 + 能力边界分析", heat:"high", format:"辣评", keywords:["GPT","Claude","Gemini"] },
+        { title:"具身智能 & Robotics", angle:"AI 走出屏幕：从 Figure 到 Tesla Bot", heat:"medium", format:"趋势分析", keywords:["Robotics","Tesla Bot","具身智能"] },
+        { title:"AI 编程革命", angle:"Cursor/Claude Code/Copilot 让非技术人也能建产品", heat:"high", format:"工具分享", keywords:["Cursor","Claude Code","Copilot"] },
+        { title:"AI 应用层爆发", angle:"哪些 AI 应用真正找到了 PMF", heat:"medium", format:"框架提炼", keywords:["AI App","PMF","AI SaaS"] }
+      ]
+    },
+    { id:"one-person-company", name:"一人公司方法论", icon:"🚀", priority:2, performance:"粉丝转化率最高，148 avg new follows",
+      topics: [
+        { title:"一人公司实战手册", angle:"从0到1：选品、MVP、分发、变现", heat:"high", format:"框架提炼", keywords:["Indie","Solo Founder","Bootstrap"] },
+        { title:"AI 原生创作者经济", angle:"AI工具如何让一个人=一个团队", heat:"high", format:"趋势分析", keywords:["Creator Economy","AI工具","杠杆"] },
+        { title:"Build in Public 实践", angle:"你自己做工具、发Github的亲身经历", heat:"high", format:"个人故事", keywords:["Build in Public","开源","Github"] }
+      ]
+    },
+    { id:"tools-frameworks", name:"工具 & 框架分享", icon:"🛠️", priority:3, performance:"收藏率碾压级，1,268 avg bookmarks",
+      topics: [
+        { title:"财报分析工具", angle:"用AI自动化美股/加密财报分析，开源给社区", heat:"high", format:"工具分享", keywords:["Earnings","GitHub","自动化"] },
+        { title:"市场数据看板", angle:"自己造看板、自己用、然后分享", heat:"medium", format:"工具分享", keywords:["Dashboard","数据可视化","开源"] },
+        { title:"思维框架提炼", angle:"把复杂事物简化为可操作的决策框架", heat:"high", format:"框架提炼", keywords:["Mental Model","杠铃策略","第一性原理"] }
+      ]
+    },
+    { id:"crypto-cross-finance", name:"加密 × 美股交叉", icon:"💰", priority:4, performance:"跨领域内容单条 230 avg new follows",
+      topics: [
+        { title:"链上美股", angle:"RWA、tokenized equities 的现状和前景", heat:"medium", format:"深度分析", keywords:["RWA","链上美股","Ondo"] },
+        { title:"稳定币生态", angle:"从USDT/USDC到稳定币法案", heat:"high", format:"趋势分析", keywords:["稳定币","USDC","监管"] },
+        { title:"Agentic Payment", angle:"AI Agent自主支付：加密×AI的杀手级用例", heat:"high", format:"深度分析", keywords:["Agent支付","Crypto×AI"] },
+        { title:"预测市场", angle:"Polymarket：比KOL更诚实的信息源", heat:"medium", format:"辣评", keywords:["Polymarket","预测市场"] },
+        { title:"比特币 × 宏观", angle:"BTC作为宏观资产的框架分析", heat:"medium", format:"数据驱动", keywords:["BTC","宏观","黄金","利率"] }
+      ]
+    },
+    { id:"space-economy", name:"太空经济", icon:"🌌", priority:5, performance:"长期布局赛道，适合重大事件时深度出击",
+      topics: [
+        { title:"SpaceX 生态系统", angle:"不只是火箭公司：Starlink、Starship的商业帝国", heat:"medium", format:"深度分析", keywords:["SpaceX","Starlink","Elon"] },
+        { title:"太空基础设施投资", angle:"卫星、通信、导航、遥感的投资机会", heat:"low", format:"趋势分析", keywords:["卫星","LEO","太空产业链"] }
+      ]
+    }
+  ]
+};
+
+const _fallbackInfoSources = {
+  "AI 前沿": {
+    icon: "🤖",
+    xLists: [
+      { name: "AI Frontier（合并列表）", desc: "核心建设者、研究员、Agent 生态、产品领导者", accounts: ["@sama","@ylecun","@karpathy","@joshwoodward","@kevinweil","@amasad","@rauchg","@alexalbert__","@garrytan","@nikunj","@adityaag","@claudeai","@trq212","@steipete","@thenanyu","@realmadhuguru","@AmandaAskell","@_catwu","@AnthropicAI","@OpenAI","@GoogleDeepMind","@GoogleLabs","@LangChainAI","@CrewAIInc","@levie","@ryolu_","@mattturck","@petergyang","@danshipper","@swyx","@MiniMax_AI","@Zai_org","@SemiAnalysis_","@_LuoFuli","@fi56622380","@FredaDuan","@dwarkesh_sp","@DarioAmodei","@AravSrinivas","@DrJimFan","@saranormous","@drfeifei","@altcap"] }
+    ],
+    newsletters: [
+      { name:"The Batch (Andrew Ng)", priority:"must_read", freq:"Weekly" },
+      { name:"Import AI (Jack Clark)", priority:"must_read", freq:"Weekly" },
+      { name:"AI News (Latent Space)", priority:"must_read", freq:"Weekly" },
+      { name:"Anthropic Engineering", priority:"must_read", freq:"Irregular" },
+      { name:"Claude Blog", priority:"must_read", freq:"Irregular" },
+      { name:"Robonomics", priority:"scan", freq:"Weekly" },
+      { name:"AI Valley", priority:"scan", freq:"Daily" },
+      { name:"The Neuron", priority:"scan", freq:"Daily" },
+      { name:"AI Supremacy", priority:"scan", freq:"2x/Week" }
+    ],
+    podcasts: [
+      { name:"Latent Space", priority:"must_read", freq:"Weekly" },
+      { name:"No Priors", priority:"must_read", freq:"Weekly" },
+      { name:"Training Data", priority:"scan", freq:"Weekly" },
+      { name:"Unsupervised Learning (Redpoint)", priority:"scan", freq:"Weekly" },
+      { name:"The MAD Podcast (Matt Turck)", priority:"scan", freq:"Biweekly" },
+      { name:"AI & I (Every)", priority:"scan", freq:"Weekly" },
+      { name:"Dwarkesh Podcast", priority:"must_read", freq:"Biweekly" }
+    ],
+    signals: ["新模型发布","重大benchmark突破","开源模型里程碑","Agent框架更新","AI编程工具重大更新","AI公司融资/IPO","AI监管政策","FSD/自动驾驶里程碑","Optimus/人形机器人进展"],
+    teslaNote: "Tesla 的 FSD 和 Optimus 在此赛道追踪"
+  },
+  "加密 × 美股": {
+    icon: "💰",
+    xLists: [
+      { name: "Crypto Builders", desc: "加密基础设施和应用", accounts: ["@VitalikButerin","@circle","@Tether_to","@OndoFinance"] },
+      { name: "预测市场", desc: "预测市场生态", accounts: ["@Polymarket","@ManifoldMarkets"] }
+    ],
+    newsletters: [
+      { name:"Bankless", priority:"must_read", freq:"Daily" },
+      { name:"The Defiant", priority:"scan", freq:"Daily" },
+      { name:"Milk Road", priority:"scan", freq:"Daily" }
+    ],
+    signals: ["稳定币法案进展","RWA代币化新项目","链上美股交易量","Agentic Payment产品","预测市场大事件","BTC与宏观相关性","加密ETF审批进展"]
+  },
+  "美股": {
+    icon: "📈",
+    xLists: [
+      { name: "US Market Analysts", desc: "美股分析师和宏观策略师", accounts: ["@markets","@zerohedge"] }
+    ],
+    newsletters: [
+      { name:"Stratechery (Ben Thompson)", priority:"must_read", freq:"3x/Week" },
+      { name:"The Information", priority:"must_read", freq:"Daily" },
+      { name:"Morning Brew", priority:"scan", freq:"Daily" }
+    ],
+    signals: ["科技股财报季","美联储利率决议","重大并购","IPO/SPAC","关税/贸易政策","科技反垄断","TSLA财报及交付数据"],
+    teslaNote: "Tesla 作为美股标的（$TSLA）在此追踪财报和估值"
+  },
+  "太空经济": {
+    icon: "🌌",
+    xLists: [
+      { name: "Space Industry", desc: "太空产业核心玩家", accounts: ["@SpaceX","@elonmusk","@RocketLab","@blueorigin"] }
+    ],
+    newsletters: [
+      { name:"Payload Space", priority:"scan", freq:"Daily" },
+      { name:"The Space Report", priority:"scan", freq:"Weekly" }
+    ],
+    signals: ["SpaceX发射/星舰测试","卫星互联网进展","太空公司IPO","NASA合同"]
+  },
+  "一人公司": {
+    icon: "🚀",
+    xLists: [
+      { name: "Indie Hackers & Creators", desc: "独立开发者和创作者经济", accounts: ["@levelsio","@marcaboreal","@naval"] }
+    ],
+    newsletters: [
+      { name:"Lenny's Newsletter", priority:"must_read", freq:"Weekly" },
+      { name:"Indie Hackers", priority:"scan", freq:"Weekly" }
+    ],
+    signals: ["AI工具降低创业门槛","独立开发者成功案例","Creator经济数据","新no-code/low-code工具"]
+  }
+};
+
+// ===== Adapters: transform topic_library.json / info_sources.json JSON schemas into display schemas =====
+function adaptTopicLibrary(jsonData) {
+  if (!jsonData || !Array.isArray(jsonData.tracks)) return null;
+  return {
+    tracks: jsonData.tracks.map(t => ({
+      id: t.id,
+      name: t.name,
+      icon: t.icon,
+      priority: t.priority,
+      performance: t.performance_note || t.performance || '',
+      topics: (t.evergreen_topics || t.topics || []).map(x => ({
+        title: x.title,
+        angle: x.angle,
+        heat: x.heat,
+        format: x.content_type || x.format,
+        keywords: x.keywords || []
+      }))
+    }))
+  };
+}
+
+function adaptInfoSources(jsonData) {
+  if (!jsonData || !jsonData.sources) return null;
+  const nameMap = {
+    'ai_frontier': 'AI 前沿', 'crypto_cross_finance': '加密 × 美股',
+    'us_stocks': '美股', 'space_economy': '太空经济', 'one_person_company': '一人公司'
+  };
+  const iconMap = {
+    'AI 前沿': '🤖', '加密 × 美股': '💰', '美股': '📈', '太空经济': '🌌', '一人公司': '🚀'
+  };
+  const langFlag = (p) => p.language === 'zh' ? ' 🇨🇳' : (p.language === 'en' ? '' : '');
+  const result = {};
+  for (const [key, src] of Object.entries(jsonData.sources)) {
+    const name = nameMap[key] || src.track || key;
+    result[name] = {
+      icon: iconMap[name] || '📡',
+      xLists: (src.x_lists || []).map(x => ({ name: x.name, desc: x.description || '', accounts: x.accounts || [] })),
+      newsletters: (src.newsletters || []).map(n => ({ name: n.name, priority: n.priority || 'scan', freq: n.frequency || '—' })),
+      podcasts: (src.podcasts || []).map(p => ({ name: (p.name || '') + langFlag(p), priority: p.priority || 'scan', freq: p.frequency || '—' })),
+      signals: src.key_signals || [],
+      teslaNote: src.tesla_tracking_note || null
+    };
+  }
+  return result;
+}
+
+// Resolve final values (prefer embedded JSON, fall back to hardcoded)
+let topicLibrary = adaptTopicLibrary(_embeddedTopicLibrary) || _fallbackTopicLibrary;
+let infoSources = adaptInfoSources(_embeddedInfoSources) || _fallbackInfoSources;
+
+const weekDays = [
+  { name:"周一", en:"Monday", priority:"high", focus:"工具分享 + 数据驱动", impressions:"163k avg" },
+  { name:"周二", en:"Tuesday", priority:"high", focus:"深度分析 + 框架", impressions:"145k avg" },
+  { name:"周三", en:"Wednesday", priority:"high", focus:"辣评 + 热点回应", impressions:"153k avg" },
+  { name:"周四", en:"Thursday", priority:"low", focus:"轻内容 + 互动", impressions:"5.4k avg ⚠️" },
+  { name:"周五", en:"Friday", priority:"medium", focus:"周末预热 + 总结", impressions:"190k avg*" },
+  { name:"周六", en:"Saturday", priority:"medium", focus:"个人故事 + 反思", impressions:"170k avg" },
+  { name:"周日", en:"Sunday", priority:"low", focus:"轻量 + 规划下周", impressions:"110k avg" }
+];
+
+const formatRanking = [
+  { name:"🛠️ 工具分享", bookmarks:1268, desc:"做给人看：开源工具、代码、看板" },
+  { name:"📊 数据驱动", bookmarks:891, desc:"用数据说话，截图+分析" },
+  { name:"📐 框架提炼", bookmarks:700, desc:"把复杂事物简化为可操作的思维模型" },
+  { name:"📝 深度分析", bookmarks:600, desc:"Thread，深入拆解一个话题" },
+  { name:"👤 个人故事", bookmarks:500, desc:"Build in Public，亲身经历" },
+  { name:"🔥 辣评", bookmarks:400, desc:"有料的犀利表达，分析支撑观点" }
+];
+
+// ============ DYNAMIC DATA (loaded from daily_data.json) ============
+let dailyData = null;
+
+// ===== EMBEDDED DATA (auto-injected by daily task, no fetch needed) =====
+const _embeddedDailyData = {}; // injected at build time by SKILL Step 8
+
+async function loadDailyData() {
+  // First try embedded data (always works regardless of browser security)
+  if (_embeddedDailyData && _embeddedDailyData.date) {
+    dailyData = _embeddedDailyData;
+    document.getElementById('dataStatus').textContent = '✅ 数据已加载 (' + (dailyData.date || '今日') + ')';
+    document.getElementById('dataStatus').className = 'data-status loaded';
+    renderDynamicContent();
+    return;
+  }
+  // Fallback: fetch from file
+  try {
+    const resp = await fetch('daily_data.json?t=' + Date.now());
+    if (resp.ok) {
+      dailyData = await resp.json();
+      document.getElementById('dataStatus').textContent = '✅ 数据已加载 (' + (dailyData.date || '今日') + ')';
+      document.getElementById('dataStatus').className = 'data-status loaded';
+      renderDynamicContent();
+    } else { throw new Error('not found'); }
+  } catch(e) {
+    document.getElementById('dataStatus').textContent = '⏳ 等待任务运行';
+    document.getElementById('dataStatus').className = 'data-status empty';
+  }
+}
+
+function renderMarketSnapshot() {
+  const ms = dailyData && dailyData.market_snapshot;
+  const body = document.getElementById('marketSnapshotBody');
+  const tsEl = document.getElementById('marketSnapshotTs');
+  if (!body) return;
+  if (!ms) return; // keep empty state
+
+  if (ms.error) {
+    body.innerHTML = `<div class="market-snapshot-error">⚠️ Day1 Global 数据拉取失败: ${ms.error}${ms.reason ? ' — ' + ms.reason : ''}</div>`;
+    return;
+  }
+  if (ms.timestamp && tsEl) {
+    try {
+      const d = new Date(ms.timestamp);
+      tsEl.textContent = ' · ' + d.toLocaleString('zh-CN', { hour12: false, month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    } catch(e) {}
+  }
+
+  const fmtPct = (n) => (n == null ? '—' : `${n >= 0 ? '+' : ''}${Number(n).toFixed(2)}%`);
+  const fmtNum = (n, d) => {
+    if (n == null) return '—';
+    const digits = d != null ? d : (Math.abs(n) >= 1000 ? 2 : Math.abs(n) >= 1 ? 2 : 4);
+    return Number(n).toLocaleString('en-US', { minimumFractionDigits: digits, maximumFractionDigits: digits });
+  };
+  const pctClass = (n) => n == null ? 'neutral' : (n > 0 ? 'positive' : n < 0 ? 'negative' : 'neutral');
+
+  // Macro items
+  const indices = ms.indices || {};
+  const sentiment = ms.sentiment || {};
+  const macroItems = [];
+  if (sentiment.cryptoFearGreed != null) {
+    const chg = sentiment.cryptoFearGreedChange;
+    macroItems.push(`<div class="macro-item">
+      <div class="macro-label">🪙 Crypto F&G</div>
+      <div class="macro-value">${sentiment.cryptoFearGreed} <span style="font-size:11px;font-weight:500;color:var(--text-dim)">${sentiment.cryptoFearGreedLabel || ''}</span></div>
+      ${chg != null ? `<div class="macro-change ${pctClass(chg)}">${chg >= 0 ? '+' : ''}${chg} vs 昨日</div>` : ''}
+    </div>`);
+  }
+  if (sentiment.cnnFearGreed != null) {
+    macroItems.push(`<div class="macro-item">
+      <div class="macro-label">🇺🇸 CNN F&G</div>
+      <div class="macro-value">${sentiment.cnnFearGreed} <span style="font-size:11px;font-weight:500;color:var(--text-dim)">${sentiment.cnnFearGreedLabel || ''}</span></div>
+    </div>`);
+  }
+  const addIndex = (key, label) => {
+    const idx = indices[key];
+    if (!idx || idx.price == null) return;
+    macroItems.push(`<div class="macro-item">
+      <div class="macro-label">${label}</div>
+      <div class="macro-value">${fmtNum(idx.price)}</div>
+      <div class="macro-change ${pctClass(idx.changePercent)}">${fmtPct(idx.changePercent)}</div>
+    </div>`);
+  };
+  addIndex('sp500', 'S&P 500');
+  // QQQ (Nasdaq 100 ETF) — from stocks passthrough, treated as macro indicator
+  const qqq = (ms.stocks && ms.stocks.QQQ) || null;
+  if (qqq && qqq.price != null) {
+    macroItems.push(`<div class="macro-item">
+      <div class="macro-label">Nasdaq (QQQ)</div>
+      <div class="macro-value">${fmtNum(qqq.price)}</div>
+      <div class="macro-change ${pctClass(qqq.changePercent)}">${fmtPct(qqq.changePercent)}</div>
+    </div>`);
+  }
+  addIndex('vix', 'VIX');
+  addIndex('dxy', 'DXY');
+  addIndex('gold', '黄金');
+  addIndex('crudeOil', '原油');
+
+  // BTC Score box
+  const bs = ms.btcScore;
+  const btcBox = bs ? `
+    <div class="btc-score-box">
+      <div class="btc-score-label">BTC 综合评分</div>
+      <div class="btc-score-value">${bs.score != null ? Number(bs.score).toFixed(1) : '—'}<span style="font-size:16px;color:var(--text-dim);font-weight:400"> / 100</span></div>
+      <div class="btc-score-level">${bs.level || ''}</div>
+      <div class="btc-score-suggestion">${bs.suggestion || ''}</div>
+      <div class="btc-score-sub">日频 ${bs.dailyScore != null ? Number(bs.dailyScore).toFixed(1) : '—'} · 周频 ${bs.weeklyScore != null ? Number(bs.weeklyScore).toFixed(1) : '—'}</div>
+    </div>
+  ` : '';
+
+  // Stocks
+  const stocks = ms.stocks || {};
+  const stockKeys = Object.keys(stocks);
+  const stockCells = stockKeys.map(sym => {
+    const s = stocks[sym] || {};
+    const stateCls = s.marketState ? `ticker-state-${s.marketState}` : '';
+    return `<div class="ticker-cell ${stateCls}">
+      <div class="ticker-symbol">${sym}</div>
+      <div class="ticker-price">$${fmtNum(s.price)}</div>
+      <div class="ticker-change ${pctClass(s.changePercent)}">${fmtPct(s.changePercent)}</div>
+    </div>`;
+  }).join('');
+
+  // Crypto
+  const crypto = ms.crypto || {};
+  const cryptoKeys = Object.keys(crypto);
+  const cryptoCells = cryptoKeys.map(sym => {
+    const c = crypto[sym] || {};
+    return `<div class="ticker-cell">
+      <div class="ticker-symbol">${sym}</div>
+      <div class="ticker-price">$${fmtNum(c.price)}</div>
+      <div class="ticker-change ${pctClass(c.change24h)}">${fmtPct(c.change24h)}</div>
+    </div>`;
+  }).join('');
+
+  // On-chain BTC metrics
+  const m = ms.btcMetrics || {};
+  const onchainCells = [];
+  const addMetric = (label, val) => {
+    if (val == null || val === '') return;
+    onchainCells.push(`<div class="btc-onchain-cell">
+      <div class="btc-onchain-label">${label}</div>
+      <div class="btc-onchain-value">${val}</div>
+    </div>`);
+  };
+  addMetric('LTH-SOPR', m.lthSopr != null ? Number(m.lthSopr).toFixed(3) : null);
+  addMetric('STH-SOPR', m.sthSopr != null ? Number(m.sthSopr).toFixed(3) : null);
+  addMetric('NUPL', m.nupl != null ? Number(m.nupl).toFixed(3) : null);
+  addMetric('LTH-MVRV', m.lthMvrv != null ? Number(m.lthMvrv).toFixed(2) : null);
+  addMetric('周线 RSI', m.weeklyRsi != null ? Number(m.weeklyRsi).toFixed(1) : null);
+  addMetric('200W 倍数', m.wma200Multiplier != null ? Number(m.wma200Multiplier).toFixed(2) + 'x' : null);
+  addMetric('365D 倍数', m.ma365Ratio != null ? Number(m.ma365Ratio).toFixed(2) + 'x' : null);
+  if (m.etfFlowDays && m.etfFlowDays.length) {
+    const sixDay = m.etfFlowDays.reduce((a, b) => a + (Number(b) || 0), 0);
+    addMetric('ETF 6日净流入', `${sixDay >= 0 ? '+' : ''}$${(sixDay/1e6).toFixed(0)}M`);
+  }
+  addMetric('LTH 占比', m.lthSupplyPercent != null ? Number(m.lthSupplyPercent).toFixed(1) + '%' : null);
+  addMetric('资金费率', m.fundingRate != null ? (Number(m.fundingRate) * 100).toFixed(3) + '%' : null);
+  addMetric('多空比', m.longShortRatio != null ? Number(m.longShortRatio).toFixed(2) : null);
+
+  body.innerHTML = `
+    <div class="market-snapshot-top">
+      ${btcBox}
+      <div>
+        <div class="market-sub-header">📊 宏观 & 情绪</div>
+        <div class="macro-list">${macroItems.join('') || '<div class="macro-item"><div class="macro-label">无数据</div></div>'}</div>
+      </div>
+    </div>
+    ${stockCells ? `
+      <div>
+        <div class="market-sub-header">🇺🇸 美股关注 (${stockKeys.length} 只)</div>
+        <div class="ticker-grid">${stockCells}</div>
+      </div>
+    ` : ''}
+    ${cryptoCells ? `
+      <div>
+        <div class="market-sub-header">🪙 加密关注 (${cryptoKeys.length} 个)</div>
+        <div class="ticker-grid">${cryptoCells}</div>
+      </div>
+    ` : ''}
+    ${onchainCells.length ? `
+      <div>
+        <div class="market-sub-header">🔗 BTC 链上 / 技术指标</div>
+        <div class="btc-onchain-row">${onchainCells.join('')}</div>
+      </div>
+    ` : ''}
+  `;
+}
+
+let _publishedSortBy = 'impressions';
+
+// localStorage key namespace for suggestion adoption state
+const SUGGESTION_STATE_KEY = 'star_suggestion_state_v1';
+function _loadSuggestionState() {
+  try { return JSON.parse(localStorage.getItem(SUGGESTION_STATE_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+function _saveSuggestionState(s) {
+  try { localStorage.setItem(SUGGESTION_STATE_KEY, JSON.stringify(s)); }
+  catch(e) {}
+}
+function _suggestionHash(obj) {
+  // Stable hash: action:target (good enough for dedupe)
+  return `${obj.action}:${obj.target}`;
+}
+
+let _pendingAdopt = null; // staging area for current modal
+
+function renderSuggestions() {
+  const s = dailyData && dailyData.suggestions;
+  const summaryEl = document.getElementById('suggestionsSummary');
+  const sourcesEl = document.getElementById('suggestionsSources');
+  const topicsEl = document.getElementById('suggestionsTopics');
+  const driftEl = document.getElementById('suggestionsDrift');
+  if (!sourcesEl || !topicsEl || !driftEl) return;
+  if (!s) return; // keep empty state
+
+  const state = _loadSuggestionState();
+  const confClass = (c) => c === 'high' ? 'high' : c === 'medium' ? 'medium' : 'low';
+  const confLabel = (c) => c === 'high' ? '高置信' : c === 'medium' ? '中置信' : '低置信';
+
+  const renderItem = (category, action, actionLabel, target, reason, confidence, rawData) => {
+    const hash = _suggestionHash({ action: `${category}.${action}`, target });
+    const stateVal = state[hash]; // 'adopted' | 'ignored' | undefined
+    const itemClass = stateVal === 'adopted' ? 'adopted' : stateVal === 'ignored' ? 'ignored' : '';
+    // Stash raw for modal lookup via data-attr (encoded)
+    const dataAttr = encodeURIComponent(JSON.stringify({ category, action, target, reason, confidence, raw: rawData }));
+    return `
+      <div class="suggestion-item ${itemClass}" data-hash="${hash}">
+        <span class="suggestion-action ${action}">${actionLabel}</span>
+        <div class="suggestion-body">
+          <div class="suggestion-target">${target}<span class="suggestion-confidence ${confClass(confidence)}">${confLabel(confidence)}</span></div>
+          <div class="suggestion-reason">${reason}</div>
+        </div>
+        <div class="suggestion-actions">
+          <button class="suggestion-btn adopt" onclick="openAdoptModal('${dataAttr}')">✓ 采纳</button>
+          <button class="suggestion-btn ignore" onclick="ignoreSuggestion('${hash}')">✕ 忽略</button>
+        </div>
+      </div>`;
+  };
+
+  // Summary counters
+  const src = s.info_sources || {};
+  const topic = s.topic_library || {};
+  const drift = s.positioning_drift || [];
+  const totalSources = (src.promote || []).length + (src.demote || []).length + (src.add || []).length;
+  const totalTopics = (topic.archive || []).length + (topic.add || []).length;
+  if (summaryEl) {
+    summaryEl.innerHTML = totalSources + totalTopics + drift.length === 0 ? '' : `
+      <div class="suggestions-summary-row">
+        <div class="stat-card"><div class="stat-label">信息源建议</div><div class="stat-value" style="color:var(--green)">${totalSources}</div><div class="stat-sub">提升/降级/新增</div></div>
+        <div class="stat-card"><div class="stat-label">选题库建议</div><div class="stat-value" style="color:var(--blue)">${totalTopics}</div><div class="stat-sub">归档/新增</div></div>
+        <div class="stat-card"><div class="stat-label">定位漂移</div><div class="stat-value" style="color:var(--purple)">${drift.length}</div><div class="stat-sub">观察条</div></div>
+      </div>
+    `;
+  }
+
+  // Info sources
+  const sourceParts = [];
+  const renderSrcGroup = (list, action, actionLabel, icon) => {
+    if (!list || !list.length) return '';
+    return `<div class="suggestion-group">
+      <div class="suggestion-group-header">${icon} ${actionLabel}（${list.length}）</div>
+      ${list.map(x => renderItem('info_sources', action, actionLabel, x.account || x.name || '—', x.reason || '', x.confidence || 'low', x)).join('')}
+    </div>`;
+  };
+  sourceParts.push(renderSrcGroup(src.promote, 'promote', '提升', '⬆️'));
+  sourceParts.push(renderSrcGroup(src.add, 'add', '新增', '➕'));
+  sourceParts.push(renderSrcGroup(src.demote, 'demote', '降级', '⬇️'));
+  const sourcesHtml = sourceParts.join('');
+  sourcesEl.innerHTML = sourcesHtml || '<div class="suggestion-empty">本周无信息源调整建议</div>';
+
+  // Topics
+  const topicParts = [];
+  const renderTopicGroup = (list, action, actionLabel, icon) => {
+    if (!list || !list.length) return '';
+    return `<div class="suggestion-group">
+      <div class="suggestion-group-header">${icon} ${actionLabel}（${list.length}）</div>
+      ${list.map(x => renderItem('topic_library', action, actionLabel, x.topic || x.title || '—', x.reason || '', x.confidence || 'low', x)).join('')}
+    </div>`;
+  };
+  topicParts.push(renderTopicGroup(topic.add, 'add', '新增选题', '➕'));
+  topicParts.push(renderTopicGroup(topic.archive, 'archive', '归档（休眠）', '🗄️'));
+  topicsEl.innerHTML = topicParts.join('') || '<div class="suggestion-empty">本周无选题库调整建议</div>';
+
+  // Positioning drift
+  if (!drift.length) {
+    driftEl.innerHTML = '<div class="suggestion-empty">本周长期定位无明显漂移</div>';
+  } else {
+    driftEl.innerHTML = drift.map(d => renderItem('positioning_drift', 'drift', '漂移观察', d.observation || '—', d.suggestion || '', d.confidence || 'low', d)).join('');
+  }
+}
+
+// ===== Adopt / Ignore flow =====
+function ignoreSuggestion(hash) {
+  const state = _loadSuggestionState();
+  state[hash] = state[hash] === 'ignored' ? undefined : 'ignored';
+  if (state[hash] === undefined) delete state[hash];
+  _saveSuggestionState(state);
+  renderSuggestions();
+}
+
+function openAdoptModal(dataAttr) {
+  let parsed;
+  try { parsed = JSON.parse(decodeURIComponent(dataAttr)); }
+  catch(e) { alert('建议数据解析失败'); return; }
+  _pendingAdopt = parsed;
+
+  const title = document.getElementById('adoptModalTitle');
+  const body = document.getElementById('adoptModalBody');
+
+  const { category, action, target, reason, raw } = parsed;
+  const { file, instruction, snippet } = buildAdoptionGuidance(category, action, target, reason, raw);
+
+  title.textContent = `采纳建议：${actionLabelCN(action)} ${target}`;
+  body.innerHTML = `
+    <div class="adopt-modal-row">
+      <div class="adopt-modal-label">🎯 目标文件</div>
+      <div class="adopt-modal-value">${file}</div>
+    </div>
+    <div class="adopt-modal-row">
+      <div class="adopt-modal-label">📝 操作说明</div>
+      <div class="adopt-modal-instruction">${instruction}</div>
+    </div>
+    ${snippet ? `
+      <div class="adopt-modal-row">
+        <div class="adopt-modal-label">📦 JSON 片段</div>
+        <pre class="adopt-modal-snippet" id="adoptSnippetContent">${snippet.replace(/</g, '&lt;')}</pre>
+      </div>` : ''}
+    <div class="adopt-modal-row">
+      <div class="adopt-modal-label">💬 理由</div>
+      <div class="adopt-modal-instruction" style="font-size:13px;color:var(--text-dim)">${reason}</div>
+    </div>
+  `;
+
+  // Hide snippet copy button if no snippet
+  const copyBtn = document.getElementById('adoptCopySnippetBtn');
+  copyBtn.style.display = snippet ? '' : 'none';
+
+  document.getElementById('adoptModal').classList.add('show');
+}
+
+function closeAdoptModal() {
+  document.getElementById('adoptModal').classList.remove('show');
+  _pendingAdopt = null;
+  // Reset any transient button states
+  const copyBtn = document.getElementById('adoptCopySnippetBtn');
+  if (copyBtn) copyBtn.textContent = '📋 复制 JSON 片段';
+}
+
+function actionLabelCN(a) {
+  return { promote:'提升', demote:'降级', add:'新增', archive:'归档', drift:'漂移观察' }[a] || a;
+}
+
+function buildAdoptionGuidance(category, action, target, reason, raw) {
+  // Returns {file, instruction, snippet}
+  if (category === 'info_sources') {
+    const file = 'ContentOS/info_sources.json';
+    if (action === 'add') {
+      return {
+        file,
+        instruction: `在对应赛道的 x_lists 或 podcasts 中新增该信息源。如果是 X 账号，加到 x_lists[].accounts 数组；如果是播客/newsletter，加到对应数组。`,
+        snippet: JSON.stringify({
+          name: target,
+          url: raw.url || "(补充 URL)",
+          frequency: "weekly",
+          priority: "scan",
+          added: new Date().toISOString().slice(0,10),
+          note: reason
+        }, null, 2)
+      };
+    }
+    if (action === 'promote') {
+      return {
+        file,
+        instruction: `找到 ${target} 所在的 x_lists / podcasts / newsletters 条目，把 priority 从 "scan" 改为 "must_read"，或把账号移到更前面。`,
+        snippet: null
+      };
+    }
+    if (action === 'demote') {
+      return {
+        file,
+        instruction: `找到 ${target} 所在条目，把 priority 从 "must_read" 改为 "scan"，或从 accounts 数组中移除（如果连续 30+ 天无贡献）。`,
+        snippet: null
+      };
+    }
+  }
+  if (category === 'topic_library') {
+    const file = 'ContentOS/topic_library.json';
+    if (action === 'add') {
+      const id = (target || 'new-topic').toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-').slice(0,40);
+      return {
+        file,
+        instruction: `选择合适的赛道（tracks），在其 evergreen_topics[] 数组中追加以下条目：`,
+        snippet: JSON.stringify({
+          id: id,
+          title: target,
+          angle: "(补充角度)",
+          keywords: [],
+          content_type: "trend_analysis",
+          status: "active",
+          heat: "high",
+          last_posted: null,
+          added: new Date().toISOString().slice(0,10),
+          notes: reason
+        }, null, 2)
+      };
+    }
+    if (action === 'archive') {
+      return {
+        file,
+        instruction: `找到 title === "${target}" 的条目，把 "status": "active" 改为 "status": "dormant"（不要删除，保留历史）。`,
+        snippet: null
+      };
+    }
+  }
+  if (category === 'positioning_drift') {
+    return {
+      file: 'profile_longterm.md',
+      instruction: `考虑手动编辑长期定位：<br><br><strong>观察：</strong>${target}<br><strong>建议：</strong>${reason}<br><br>编辑时注意不要覆盖已有的红线和锚点，只做增量。`,
+      snippet: null
+    };
+  }
+  return { file: '(未知)', instruction: '请手动处理', snippet: null };
+}
+
+function copyAdoptSnippet() {
+  if (!_pendingAdopt) return;
+  const el = document.getElementById('adoptSnippetContent');
+  if (!el) return;
+  const text = el.textContent;
+  robustCopy(text);
+  const btn = document.getElementById('adoptCopySnippetBtn');
+  btn.textContent = '✅ 已复制';
+  setTimeout(() => { btn.textContent = '📋 复制 JSON 片段'; }, 2000);
+}
+
+function copyAdoptClaudePrompt() {
+  if (!_pendingAdopt) return;
+  const { category, action, target, reason, raw } = _pendingAdopt;
+  const { file, instruction, snippet } = buildAdoptionGuidance(category, action, target, reason, raw);
+  const prompt = `请帮我把以下 Dashboard 系统建议应用到 ${file}：
+
+操作：${actionLabelCN(action)}
+目标：${target}
+理由：${reason}
+
+具体操作说明：${instruction.replace(/<br>/g, '\n')}
+
+${snippet ? `建议的 JSON 片段：\n\`\`\`json\n${snippet}\n\`\`\`\n` : ''}
+请读取当前 ${file}，找到合适位置插入/修改，然后用 Edit 工具写回。改完确认。`;
+  robustCopy(prompt);
+  alert('Claude Prompt 已复制，在 Claude Code 中粘贴即可让 Claude 应用该建议。');
+}
+
+function markAdoptConfirmed() {
+  if (!_pendingAdopt) return;
+  const { category, action, target } = _pendingAdopt;
+  const hash = _suggestionHash({ action: `${category}.${action}`, target });
+  const state = _loadSuggestionState();
+  state[hash] = 'adopted';
+  _saveSuggestionState(state);
+  closeAdoptModal();
+  renderSuggestions();
+}
+
+function renderPublishedThisWeek() {
+  const pub = dailyData && dailyData.published_this_week;
+  const container = document.getElementById('publishedContainer');
+  const summaryEl = document.getElementById('publishedSummary');
+  const periodEl = document.getElementById('publishedPeriod');
+  if (!container) return;
+  if (!pub) return; // keep empty state
+  if (pub.error) {
+    container.innerHTML = `<div class="market-snapshot-error">⚠️ Typefully 数据拉取失败: ${pub.error}${pub.reason ? ' — ' + pub.reason : ''}</div>`;
+    return;
+  }
+  const posts = Array.isArray(pub.posts) ? pub.posts.slice() : [];
+  if (periodEl && pub.period) periodEl.textContent = ` · ${pub.period}`;
+
+  if (!posts.length) {
+    container.innerHTML = `<div class="empty-state"><div class="icon">📭</div><h3>本周无已发布推文</h3><p>Typefully 在指定时间段内未返回数据。</p></div>`;
+    summaryEl.innerHTML = '';
+    return;
+  }
+
+  // Summary aggregates
+  const totalImpressions = posts.reduce((a, p) => a + (p.metrics?.impressions || 0), 0);
+  const totalEngagement = posts.reduce((a, p) => a + (p.metrics?.total_engagement ?? p.metrics?.engagement?.total ?? 0), 0);
+  const totalSaves = posts.reduce((a, p) => a + (p.metrics?.saves ?? p.metrics?.engagement?.saves ?? 0), 0);
+  const totalLikes = posts.reduce((a, p) => a + (p.metrics?.likes ?? p.metrics?.engagement?.likes ?? 0), 0);
+  const avgImpressions = Math.round(totalImpressions / posts.length);
+  const topByImp = posts.reduce((best, p) => (p.metrics?.impressions || 0) > (best.metrics?.impressions || 0) ? p : best, posts[0]);
+  const topImpValue = topByImp.metrics?.impressions || 0;
+
+  const fmtN = (n) => n == null ? '—' : Number(n).toLocaleString('en-US');
+  summaryEl.innerHTML = `
+    <div class="published-summary">
+      <div class="stat-card"><div class="stat-label">发布数</div><div class="stat-value" style="color:var(--accent)">${posts.length}</div><div class="stat-sub">过去 7 天</div></div>
+      <div class="stat-card"><div class="stat-label">总曝光</div><div class="stat-value" style="color:var(--green)">${fmtN(totalImpressions)}</div><div class="stat-sub">平均 ${fmtN(avgImpressions)}/条</div></div>
+      <div class="stat-card"><div class="stat-label">总互动</div><div class="stat-value" style="color:var(--blue)">${fmtN(totalEngagement)}</div><div class="stat-sub">❤️ ${fmtN(totalLikes)} · 🔖 ${fmtN(totalSaves)}</div></div>
+      <div class="stat-card"><div class="stat-label">单条最高曝光</div><div class="stat-value" style="color:var(--orange)">${fmtN(topImpValue)}</div><div class="stat-sub">${topByImp.preview_text ? topByImp.preview_text.slice(0, 24).replace(/\n/g, ' ') + '…' : ''}</div></div>
+    </div>
+    <div class="published-controls">
+      <span>排序：</span>
+      <button class="published-sort-btn ${_publishedSortBy==='impressions'?'active':''}" onclick="setPublishedSort('impressions')">👁 曝光</button>
+      <button class="published-sort-btn ${_publishedSortBy==='engagement'?'active':''}" onclick="setPublishedSort('engagement')">💥 互动</button>
+      <button class="published-sort-btn ${_publishedSortBy==='saves'?'active':''}" onclick="setPublishedSort('saves')">🔖 收藏</button>
+      <button class="published-sort-btn ${_publishedSortBy==='date'?'active':''}" onclick="setPublishedSort('date')">🕒 时间</button>
+    </div>
+  `;
+
+  // Sort
+  const getVal = (p, key) => {
+    if (key === 'date') return new Date(p.created_at || 0).getTime();
+    const m = p.metrics || {};
+    if (key === 'impressions') return m.impressions || 0;
+    if (key === 'engagement') return m.total_engagement ?? m.engagement?.total ?? 0;
+    if (key === 'saves') return m.saves ?? m.engagement?.saves ?? 0;
+    return 0;
+  };
+  posts.sort((a, b) => getVal(b, _publishedSortBy) - getVal(a, _publishedSortBy));
+
+  // Top performer threshold: avgImpressions * 3 or top 1 min
+  const topThreshold = Math.max(avgImpressions * 3, topImpValue);
+  const fmtDate = (iso) => {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      return d.toLocaleString('zh-CN', { hour12: false, month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    } catch(e) { return iso; }
+  };
+  const relTime = (iso) => {
+    if (!iso) return '';
+    const ms = Date.now() - new Date(iso).getTime();
+    const hours = ms / 3600000;
+    if (hours < 1) return `${Math.max(1, Math.round(ms/60000))} 分钟前`;
+    if (hours < 24) return `${Math.round(hours)} 小时前`;
+    return `${Math.round(hours/24)} 天前`;
+  };
+  // Typefully preview_text contains HTML entities (&gt;, &amp;). Decode first, then re-escape safely for display.
+  const decodeEntities = (s) => String(s == null ? '' : s)
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+  const esc = (s) => decodeEntities(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  container.innerHTML = posts.map((p, i) => {
+    const m = p.metrics || {};
+    const eng = m.engagement || {};
+    const impressions = m.impressions || 0;
+    const likes = m.likes ?? eng.likes ?? 0;
+    const saves = m.saves ?? eng.saves ?? 0;
+    const shares = m.shares ?? eng.shares ?? 0;
+    const comments = m.comments ?? eng.comments ?? 0;
+    const quotes = m.quotes ?? eng.quotes ?? 0;
+    const total = m.total_engagement ?? eng.total ?? 0;
+    const isTop = impressions >= topThreshold && i < 3;
+    return `
+      <div class="published-post-card ${isTop ? 'top-performer' : ''}">
+        <div class="published-post-header">
+          <span class="published-post-date">${fmtDate(p.created_at)}</span>
+          <span>· ${relTime(p.created_at)}</span>
+          ${isTop ? '<span style="background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700">🔥 高表现</span>' : ''}
+          <span class="published-post-impressions">👁 ${fmtN(impressions)}</span>
+        </div>
+        <div class="published-post-text" id="pub-text-${i}">${esc(p.preview_text || '').replace(/\n/g, '<br>')}</div>
+        <div class="published-post-metrics">
+          <span class="metric-badge likes">❤️ ${fmtN(likes)}</span>
+          <span class="metric-badge saves">🔖 ${fmtN(saves)}</span>
+          <span class="metric-badge shares">🔁 ${fmtN(shares)}</span>
+          <span class="metric-badge comments">💬 ${fmtN(comments)}</span>
+          <span class="metric-badge quotes">❝ ${fmtN(quotes)}</span>
+          <span class="metric-badge total">Σ ${fmtN(total)}</span>
+        </div>
+        <div class="published-post-footer">
+          ${p.url ? `<a href="${p.url}" target="_blank">打开 X ↗</a>` : ''}
+          <button class="published-expand-btn" onclick="togglePublishedExpand(${i})">展开全文 ▾</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function setPublishedSort(key) {
+  _publishedSortBy = key;
+  renderPublishedThisWeek();
+}
+
+function togglePublishedExpand(i) {
+  const el = document.getElementById('pub-text-' + i);
+  if (!el) return;
+  el.classList.toggle('expanded');
+  const btn = el.parentElement.querySelector('.published-expand-btn');
+  if (btn) btn.textContent = el.classList.contains('expanded') ? '收起 ▴' : '展开全文 ▾';
+}
+
+function renderDynamicContent() {
+  if (!dailyData) return;
+
+  // Market snapshot (Day1 Global)
+  renderMarketSnapshot();
+
+  // Published this week (Typefully)
+  renderPublishedThisWeek();
+
+  // System suggestions (Phase 3 meta-feedback)
+  renderSuggestions();
+
+  // Must-read items
+  const fmtPublished = (iso, ageHours) => {
+    if (!iso && ageHours == null) return '';
+    let when = '', ageBadge = '';
+    if (iso) {
+      try {
+        const d = new Date(iso);
+        when = d.toLocaleString('zh-CN', { hour12: false, month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+      } catch(e) { when = iso; }
+    }
+    let age = ageHours;
+    if (age == null && iso) age = Math.round((Date.now() - new Date(iso).getTime()) / 3600000);
+    if (age != null) {
+      const relLabel = age < 1 ? '<1h 前' : age < 24 ? `${Math.round(age)}h 前` : age < 48 ? `${Math.round(age)}h 前` : `${Math.round(age/24)}天前`;
+      const staleClass = age > 48 ? 'stale' : age > 24 ? 'warn' : 'fresh';
+      ageBadge = `<span class="age-badge ${staleClass}">${relLabel}</span>`;
+    }
+    return `<span class="pub-time">${when}${ageBadge}</span>`;
+  };
+
+  if (dailyData.must_reads && dailyData.must_reads.length) {
+    document.getElementById('mustReadCount').textContent = dailyData.must_reads.length;
+    document.getElementById('mustReadContainer').innerHTML = dailyData.must_reads.map((item, i) => `
+      <div class="must-read-item">
+        <div class="must-read-num">${i+1}</div>
+        <div class="must-read-body">
+          <div class="must-read-title">${item.url ? `<a href="${item.url}" target="_blank">${item.title}</a>` : item.title}</div>
+          <div class="must-read-summary">${item.summary}</div>
+          <div class="must-read-tags">
+            ${item.track ? `<span class="tag track">${item.track}</span>` : ''}
+            ${item.matched_topic ? `<span class="tag">${item.matched_topic}</span>` : ''}
+            ${fmtPublished(item.published_at, item.age_hours)}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Also worth reading
+  if (dailyData.also_worth_reading && dailyData.also_worth_reading.length) {
+    const awr = dailyData.also_worth_reading;
+    document.getElementById('alsoWorthCount').textContent = `${awr.length} 条`;
+    document.getElementById('alsoWorthContainer').innerHTML = awr.map((item, i) => `
+      <div class="must-read-item">
+        <div class="must-read-num" style="background:var(--bg);color:var(--text-dim);border:1px solid var(--border)">${i+1}</div>
+        <div class="must-read-body">
+          <div class="must-read-title">${item.url ? `<a href="${item.url}" target="_blank">${item.title}</a>` : item.title}</div>
+          <div class="must-read-summary">${item.summary}${item.note ? ` <em style="color:var(--text-muted);font-size:11px">（${item.note}）</em>` : ''}</div>
+          <div class="must-read-tags">
+            ${item.track ? `<span class="tag track">${item.track}</span>` : ''}
+            ${fmtPublished(item.published_at, item.age_hours)}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Topics
+  if (dailyData.topics && dailyData.topics.length) {
+    document.getElementById('topicCount').textContent = dailyData.topics.length;
+    document.getElementById('todayTopics').innerHTML = dailyData.topics.map(t => `
+      <div class="topic-card">
+        <div class="topic-header">
+          <div class="topic-title">${t.title}</div>
+          <div class="topic-heat ${t.heat || 'medium'}">${t.heat === 'high' ? '🔥 高热度' : '⚡ 中热度'}</div>
+        </div>
+        <div class="topic-angle">切入角度：${t.angle}</div>
+        <div class="topic-tags">
+          ${(t.tracks || []).map(tr => `<span class="tag track">${tr}</span>`).join('')}
+          ${t.format ? `<span class="tag format">${t.format}</span>` : ''}
+        </div>
+        ${t.hooks ? `<div class="draft-reasoning">💡 Hook 建议：${t.hooks.join(' / ')}</div>` : ''}
+        ${t.reasoning ? `<div class="draft-reasoning">${t.reasoning}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  // Drafts
+  if (dailyData.drafts && dailyData.drafts.length) {
+    document.getElementById('draftCount').textContent = dailyData.drafts.length;
+    document.getElementById('draftsContainer').innerHTML = dailyData.drafts.map((d, i) => `
+      <div class="draft-card" data-draft-index="${i}">
+        <div class="draft-number">草稿 ${i+1} — ${d.format || ''}</div>
+        <div class="draft-meta">
+          ${(d.tags || []).map(t => `<span class="tag track">${t}</span>`).join('')}
+          ${d.format ? `<span class="tag format">${d.format}</span>` : ''}
+        </div>
+        <div class="draft-text">${d.text}</div>
+        ${d.reasoning ? `<div class="draft-reasoning">💡 ${d.reasoning}</div>` : ''}
+        <div class="draft-actions">
+          <button class="btn-sm btn-primary" onclick="copyDraft(${i})">📋 复制</button>
+          <button class="btn-sm btn-typefully" onclick="sendToTypefully(${i})">🐦 加入 Typefully</button>
+          <button class="btn-sm btn-ghost" onclick="editDraft(this)">✏️ 编辑</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Also Worth Reading
+  if (dailyData.also_worth_reading && dailyData.also_worth_reading.length) {
+    document.getElementById('alsoWorthContainer').innerHTML = dailyData.also_worth_reading.map((item, i) => `
+      <div class="must-read-item">
+        <div class="must-read-num" style="background:var(--blue)">${i+1}</div>
+        <div class="must-read-body">
+          <div class="must-read-title">${item.url ? `<a href="${item.url}" target="_blank">${item.title}</a>` : item.title}</div>
+          <div class="must-read-summary">${item.summary}</div>
+          <div class="must-read-tags">
+            ${item.track ? `<span class="tag track">${item.track}</span>` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Cross-domain opportunities
+  if (dailyData.cross_opportunities && dailyData.cross_opportunities.length) {
+    document.getElementById('crossContainer').innerHTML = dailyData.cross_opportunities.map(c => `
+      <div class="cross-card">
+        <div class="cross-label">${c.label}</div>
+        <div class="cross-text">${c.text}</div>
+      </div>
+    `).join('');
+  }
+}
+
+// ============ TYPEFULLY INTEGRATION ============
+let _currentDraftIndex = -1;
+
+function sendToTypefully(draftIndex) {
+  if (!dailyData || !dailyData.drafts[draftIndex]) return;
+  _currentDraftIndex = draftIndex;
+  const draft = dailyData.drafts[draftIndex];
+  document.getElementById('modalTextarea').value = draft.text;
+  document.getElementById('modalSubtitle').textContent =
+    `草稿 ${draftIndex + 1}（${draft.format || ''}）— 选择发送方式：`;
+  document.getElementById('typefullyModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('typefullyModal').classList.remove('open');
+  document.getElementById('btnCopyModal').textContent = '📋 复制文本';
+  document.getElementById('btnCopyModal').classList.remove('copy-success');
+}
+
+function robustCopy(text) {
+  // Works on file:// protocol unlike navigator.clipboard
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  if (!ok && navigator.clipboard) {
+    navigator.clipboard.writeText(text).catch(() => {});
+  }
+  return ok;
+}
+
+function copyModalText() {
+  const text = document.getElementById('modalTextarea').value;
+  robustCopy(text);
+  const btn = document.getElementById('btnCopyModal');
+  btn.textContent = '✅ 已复制！';
+  btn.classList.add('copy-success');
+  setTimeout(() => {
+    btn.textContent = '📋 复制文本';
+    btn.classList.remove('copy-success');
+  }, 2500);
+}
+
+function sendViaCowork() {
+  if (_currentDraftIndex < 0 || !dailyData) return;
+  const draft = dailyData.drafts[_currentDraftIndex];
+  const msg = `请帮我把以下推文加入 Typefully 草稿队列（不需要调度时间，保存为草稿即可）：\n\n${draft.text}`;
+  robustCopy(msg);
+  const btn = event.target;
+  btn.textContent = '✅ 已复制！切换到 Cowork 粘贴';
+  btn.style.background = '#059669';
+  setTimeout(() => {
+    btn.textContent = '🚀 发送到 Cowork';
+    btn.style.background = '#1a8cd8';
+    closeModal();
+  }, 3000);
+}
+
+function copyDraft(draftIndex) {
+  if (!dailyData || !dailyData.drafts[draftIndex]) return;
+  const text = dailyData.drafts[draftIndex].text;
+  robustCopy(text);
+  const btn = event.target;
+  btn.textContent = '✅ 已复制';
+  setTimeout(() => { btn.textContent = '📋 复制'; }, 2000);
+}
+
+function editDraft(btn) {
+  const draftEl = btn.closest('.draft-card').querySelector('.draft-text');
+  draftEl.contentEditable = draftEl.contentEditable === 'true' ? 'false' : 'true';
+  draftEl.focus();
+  btn.textContent = draftEl.contentEditable === 'true' ? '💾 保存' : '✏️ 编辑';
+  if (draftEl.contentEditable === 'true') {
+    draftEl.style.outline = '2px solid var(--accent)'; draftEl.style.outlineOffset = '2px';
+  } else { draftEl.style.outline = 'none'; }
+}
+
+// ============ STATIC RENDERS ============
+function getToday() {
+  const d = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const daysCN = ['周日','周一','周二','周三','周四','周五','周六'];
+  return { dayEN: days[d.getDay()], dayCN: daysCN[d.getDay()], dayIndex: d.getDay() };
+}
+
+function initHeader() {
+  const now = new Date();
+  document.getElementById('dateDisplay').textContent = now.toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
+  const { dayEN } = getToday();
+  const dc = weekDays.find(d => d.en === dayEN);
+  const qEl = document.getElementById('dayQuality');
+  if (dc) {
+    qEl.textContent = dc.priority === 'high' ? '🟢 黄金发布日' : dc.priority === 'medium' ? '🟡 中等发布日' : '🔴 轻内容日';
+    qEl.className = 'day-quality ' + dc.priority;
+    document.getElementById('dayQualityText').textContent = dc.priority === 'high' ? '⭐ 黄金' : dc.priority === 'medium' ? '🔸 中等' : '⚪ 轻量';
+    document.getElementById('dayQualityText').style.color = dc.priority === 'high' ? 'var(--green)' : dc.priority === 'medium' ? 'var(--yellow)' : 'var(--red)';
+    document.getElementById('dayAdvice').textContent = dc.focus;
+  }
+}
+
+function initTodayStrategy() {
+  const { dayEN } = getToday();
+  const dc = weekDays.find(d => d.en === dayEN);
+  const s = [];
+  if (dc) s.push(`今天是${dc.name}，推荐重点：<strong>${dc.focus}</strong>（历史表现：${dc.impressions}）`);
+  s.push('每条推文开头用「有料的犀利表达」抓注意力，后面用数据/框架支撑深度');
+  s.push('今日 3-5 条目标：至少 1 条来自「选题推荐」，其余可以是转评或短评');
+  s.push('发布前检查：这条内容是否在你的「桥梁建设者」定位上？是否在填补信息差？');
+  document.getElementById('todayStrategy').innerHTML = s.map(x => `<li>${x}</li>`).join('');
+}
+
+function renderTopicLibrary() {
+  let html = '';
+  topicLibrary.tracks.forEach(track => {
+    html += `<div class="track-section"><div class="track-header">
+      <span class="track-icon">${track.icon}</span><span class="track-name">${track.name}</span>
+      <span class="track-badge">${track.topics.length} 个选题</span>
+      <span style="font-size:12px;color:var(--text-dim);margin-left:auto">${track.performance}</span>
+    </div>`;
+    track.topics.forEach(t => {
+      html += `<div class="topic-card"><div class="topic-header">
+        <div class="topic-title">${t.title}</div>
+        <div class="topic-heat ${t.heat}">${t.heat==='high'?'🔥 高热度':t.heat==='medium'?'⚡ 中热度':'💤 低热度'}</div>
+      </div><div class="topic-angle">${t.angle}</div>
+      <div class="topic-tags"><span class="tag format">${t.format}</span>${t.keywords.map(k=>`<span class="tag">${k}</span>`).join('')}</div></div>`;
+    });
+    html += '</div>';
+  });
+  document.getElementById('topicLibrary').innerHTML = html;
+}
+
+function renderSources() {
+  let html = '';
+  for (const [trackName, data] of Object.entries(infoSources)) {
+    html += `<div class="section-card"><div class="section-title"><span class="icon">${data.icon}</span> ${trackName}</div>`;
+
+    // X Lists section
+    html += `<div style="margin-bottom:14px"><div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">𝕏 Twitter Lists</div>`;
+    data.xLists.forEach(xl => {
+      html += `<div class="xlist-card">
+        <div class="xlist-icon">📋</div>
+        <div><div class="xlist-name">${xl.name}</div><div style="font-size:11px;color:var(--text-muted)">${xl.desc}</div></div>
+        <div class="xlist-accounts">${xl.accounts.join(' ')}</div>
+      </div>`;
+    });
+    html += '</div>';
+
+    // Newsletters
+    html += `<div style="margin-bottom:14px"><div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">📧 Newsletters</div>`;
+    data.newsletters.forEach(nl => {
+      html += `<div class="source-item"><div class="source-priority ${nl.priority}"></div><div class="source-name">${nl.name}</div><div class="source-freq">${nl.freq}</div></div>`;
+    });
+    html += '</div>';
+
+    // Podcasts (if any)
+    if (data.podcasts && data.podcasts.length) {
+      html += `<div style="margin-bottom:14px"><div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">🎙️ Podcasts</div>`;
+      data.podcasts.forEach(pc => {
+        html += `<div class="source-item"><div class="source-priority ${pc.priority}"></div><div class="source-name">${pc.name}</div><div class="source-freq">${pc.freq}</div></div>`;
+      });
+      html += '</div>';
+    }
+
+    // Signals
+    html += `<div><div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">🎯 关键监控信号</div>`;
+    data.signals.forEach(sig => {
+      html += `<div class="signal-item"><div class="signal-dot"></div><div class="signal-text">${sig}</div></div>`;
+    });
+
+    // Tesla note (if any)
+    if (data.teslaNote) {
+      html += `<div style="margin-top:10px;padding:8px 12px;background:var(--accent-bg);border-radius:6px;font-size:12px;color:var(--accent)">🚗 ${data.teslaNote}</div>`;
+    }
+
+    html += '</div></div>';
+  }
+  document.getElementById('sourcesGrid').innerHTML = html;
+}
+
+function renderWeekGrid() {
+  const { dayEN } = getToday();
+  document.getElementById('weekGrid').innerHTML = weekDays.map(d => {
+    const isToday = d.en === dayEN;
+    return `<div class="day-cell ${isToday?'today':''} ${d.priority}-priority">
+      <div class="day-name">${d.name}${isToday?' ✦':''}</div><div class="day-focus">${d.focus}</div><div class="day-impressions">${d.impressions}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderFormatRanking() {
+  const max = formatRanking[0].bookmarks;
+  document.getElementById('formatRanking').innerHTML = formatRanking.map(f => {
+    const pct = (f.bookmarks/max*100).toFixed(0);
+    return `<div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:13px;font-weight:500">${f.name}</span>
+        <span style="font-size:12px;color:var(--accent);font-weight:600">${f.bookmarks} avg bookmarks</span>
+      </div>
+      <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px">${f.desc}</div>
+    </div>`;
+  }).join('');
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ============ INIT ============
+initHeader();
+initTodayStrategy();
+renderTopicLibrary();
+renderSources();
+renderWeekGrid();
+renderFormatRanking();
+loadDailyData();
+</script>
+
+<!-- ===== Adopt Suggestion Modal ===== -->
+<div class="adopt-modal-overlay" id="adoptModal" onclick="if(event.target===this)closeAdoptModal()">
+  <div class="adopt-modal">
+    <div class="adopt-modal-header">
+      <div class="adopt-modal-title" id="adoptModalTitle">采纳建议</div>
+      <button class="adopt-modal-close" onclick="closeAdoptModal()">×</button>
+    </div>
+    <div class="adopt-modal-body" id="adoptModalBody"></div>
+    <div class="adopt-modal-actions">
+      <button class="adopt-modal-btn primary" id="adoptCopySnippetBtn" onclick="copyAdoptSnippet()">📋 复制 JSON 片段</button>
+      <button class="adopt-modal-btn secondary" onclick="copyAdoptClaudePrompt()">🤖 复制 Claude Prompt</button>
+      <button class="adopt-modal-btn secondary" onclick="markAdoptConfirmed()" style="margin-left:auto">✓ 标记为已采纳</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Typefully Modal ===== -->
+<div class="modal-overlay" id="typefullyModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-title">🐦 发送到 Typefully</div>
+    <div class="modal-subtitle" id="modalSubtitle">草稿内容已就绪，选择发送方式：</div>
+    <textarea class="modal-textarea" id="modalTextarea" readonly></textarea>
+    <div class="modal-note">
+      <strong>方式一（自动）：</strong>点击「发送到 Cowork」按钮，切换到 Cowork 窗口，Claude 会自动调用 Typefully API 创建草稿。<br>
+      <strong>方式二（手动）：</strong>点击「复制文本」后，去 Typefully 手动粘贴。
+    </div>
+    <div class="modal-actions">
+      <button class="btn-close-modal" onclick="closeModal()">取消</button>
+      <button class="btn-copy-modal" id="btnCopyModal" onclick="copyModalText()">📋 复制文本</button>
+      <button class="btn-typefully-real" onclick="sendViaCowork()">🚀 发送到 Cowork</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

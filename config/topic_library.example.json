@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "description": "Topic library — the evergreen themes you want the agent to match events against.",
+    "updated": "2026-08-15",
+    "note": "SCHEMA EXAMPLE ONLY. The real file contains the operator's own performance data and is not shared. Fill in your own tracks."
+  },
+  "tracks": [
+    {
+      "id": "ai-frontier",
+      "name": "AI Frontier",
+      "icon": "🤖",
+      "priority": "high",
+      "performance_note": "<your own note: which formats perform, which don't>",
+      "evergreen_topics": [
+        {
+          "title": "<topic title>",
+          "angle": "<the specific angle you own>",
+          "heat": "high",
+          "content_type": "deep-dive",
+          "keywords": [
+            "<keyword>",
+            "<keyword>"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "your-second-track",
+      "name": "<Track name>",
+      "icon": "📈",
+      "priority": "medium",
+      "performance_note": "<...>",
+      "evergreen_topics": [
+        {
+          "title": "<topic title>",
+          "angle": "<...>",
+          "heat": "medium",
+          "content_type": "commentary",
+          "keywords": [
+            "<keyword>"
+          ]
+        }
+      ]
+    }
+  ],
+  "content_formats": [
+    {
+      "name": "<format, e.g. tool-share>",
+      "note": "<when it works for you>"
+    }
+  ],
+  "posting_strategy": {
+    "note": "<your cadence rules: best days, formats per day, weekly must-ship>"
+  }
+}

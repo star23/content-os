@@ -1,0 +1,597 @@
+{
+  "meta": {
+    "description": "Information-source registry, grouped by track. Example config — replace with your own.",
+    "updated": "2026-08-15",
+    "usage": "The daily agent scans these sources and extracts events matching your topic library.",
+    "note": "Account handles are public. Operator-specific rationale fields have been removed from this shared copy."
+  },
+  "sources": {
+    "ai_frontier": {
+      "track": "AI 前沿",
+      "x_lists": [
+        {
+          "name": "SemiAnalysis Lead",
+          "description": "Dylan Patel / SemiAnalysis 官方号 — AI 半导体 / 基建深度分析头号信号源，对位 InvestOS AI 半导体终局推演与 10x 策略",
+          "priority": "must_read",
+          "accounts": [
+            "@SemiAnalysis_",
+            "@dylan522p"
+          ],
+          "promoted_at": "2026-05-20"
+        },
+        {
+          "name": "全球模型厂商",
+          "description": "英美前沿实验室官方号 — 模型发布的第一手来源（发布通告先落在官方号，再由个人号扩散）",
+          "priority": "must_read",
+          "accounts": [
+            "@OpenAI",
+            "@AnthropicAI",
+            "@GoogleDeepMind",
+            "@claudeai",
+            "@GoogleLabs"
+          ],
+          "added": "2026-08-06",
+          "coverage_gap": "xAI / Meta AI / Mistral / Microsoft AI 官方号尚未收录，待 Star 确认是否补齐"
+        },
+        {
+          "name": "中国模型厂商",
+          "description": "中国前沿模型实验室官方号 — 开源权重发布 / 中美模型差距叙事的一手来源，是「桥梁型」内容的核心素材池",
+          "priority": "must_read",
+          "accounts": [
+            "@deepseek_ai",
+            "@Kimi_Moonshot",
+            "@Alibaba_Qwen",
+            "@MiniMax_AI",
+            "@Zai_org"
+          ],
+          "added": "2026-08-06"
+        },
+        {
+          "name": "AI Frontier",
+          "description": "AI 领域核心建设者、研究员、Agent 生态和产品领导者（合并列表；模型厂商官方号已拆出为独立列表）",
+          "priority": "must_read",
+          "accounts": [
+            "@sama",
+            "@ylecun",
+            "@karpathy",
+            "@joshwoodward",
+            "@kevinweil",
+            "@amasad",
+            "@rauchg",
+            "@alexalbert__",
+            "@garrytan",
+            "@nikunj",
+            "@adityaag",
+            "@trq212",
+            "@steipete",
+            "@thenanyu",
+            "@realmadhuguru",
+            "@AmandaAskell",
+            "@_catwu",
+            "@LangChainAI",
+            "@CrewAIInc",
+            "@levie",
+            "@ryolu_",
+            "@mattturck",
+            "@petergyang",
+            "@danshipper",
+            "@swyx",
+            "@_LuoFuli",
+            "@fi56622380",
+            "@FredaDuan",
+            "@dwarkesh_sp",
+            "@DarioAmodei",
+            "@AravSrinivas",
+            "@DrJimFan",
+            "@saranormous",
+            "@drfeifei",
+            "@altcap"
+          ],
+          "restructured_at": "2026-08-06"
+        },
+        {
+          "name": "AI Products / Companies (Official)",
+          "description": "AI 产品/公司官方号 — 补充到 AI Frontier 合并列表之外，作为 product 层信号",
+          "priority": "scan",
+          "accounts": [
+            "@cursor_ai",
+            "@perplexity_ai"
+          ],
+          "added": "2026-04-22"
+        },
+        {
+          "name": "AI Application / Agent Leaders",
+          "description": "AI 应用层 / Agent 落地一线信号源 — 覆盖职场影响科普、Agent 工具链硬核评测、垂直 Agent 创业者视角",
+          "priority": "must_read",
+          "accounts": [
+            "@emollick",
+            "@simonw",
+            "@harrison_chase",
+            "@jerryjliu0",
+            "@rowancheung",
+            "@bindureddy"
+          ],
+          "added": "2026-08-03",
+          "promoted_at": "2026-08-03"
+        },
+        {
+          "name": "AI Agent Founders / Vendors",
+          "description": "垂直 Agent / 数字劳动力头部公司创始人 — 企业 Agent 落地度辩论与 outcome-based 定价革命的中心人物",
+          "priority": "scan",
+          "accounts": [
+            "@JesseZhang0",
+            "@btaylor"
+          ],
+          "added": "2026-08-03"
+        }
+      ],
+      "newsletters": [
+        {
+          "name": "SemiAnalysis (Dylan Patel)",
+          "url": "https://newsletter.semianalysis.com/",
+          "frequency": "weekly",
+          "priority": "must_read",
+          "added": "2026-05-03"
+        },
+        {
+          "name": "The Batch (Andrew Ng)",
+          "url": "https://www.deeplearning.ai/the-batch/",
+          "frequency": "weekly",
+          "priority": "must_read"
+        },
+        {
+          "name": "Import AI (Jack Clark)",
+          "url": "https://importai.substack.com/",
+          "frequency": "weekly",
+          "priority": "must_read"
+        },
+        {
+          "name": "AI News (Latent Space)",
+          "url": "https://www.latent.space/",
+          "frequency": "weekly",
+          "priority": "must_read"
+        },
+        {
+          "name": "Anthropic Engineering",
+          "url": "https://www.anthropic.com/engineering",
+          "frequency": "irregular",
+          "priority": "must_read"
+        },
+        {
+          "name": "Claude Blog",
+          "url": "https://claude.com/blog",
+          "frequency": "irregular",
+          "priority": "must_read"
+        },
+        {
+          "name": "Robonomics (Robotic Economics)",
+          "url": "https://robonomics.substack.com/",
+          "frequency": "weekly",
+          "priority": "must_read",
+          "promoted_at": "2026-05-19"
+        },
+        {
+          "name": "AI Valley",
+          "url": "https://www.theaivalley.com/",
+          "frequency": "daily",
+          "priority": "scan"
+        },
+        {
+          "name": "The Neuron",
+          "url": "https://www.theneurondaily.com/",
+          "frequency": "daily",
+          "priority": "scan"
+        },
+        {
+          "name": "AI Supremacy",
+          "url": "https://aisupremacy.substack.com/",
+          "frequency": "2x_week",
+          "priority": "scan"
+        },
+        {
+          "name": "Base10 Agentic Index",
+          "url": "https://base10.vc/agentic-index/",
+          "frequency": "quarterly",
+          "priority": "must_read",
+          "added": "2026-08-03"
+        },
+        {
+          "name": "Every",
+          "url": "https://every.to/",
+          "frequency": "daily",
+          "priority": "must_read",
+          "added": "2026-08-03"
+        },
+        {
+          "name": "a16z Enterprise AI",
+          "url": "https://a16z.com/enterprise/",
+          "frequency": "irregular",
+          "priority": "scan",
+          "added": "2026-08-03"
+        },
+        {
+          "name": "State of AI Report",
+          "url": "https://www.stateof.ai/",
+          "frequency": "annual",
+          "priority": "scan",
+          "added": "2026-08-03"
+        },
+        {
+          "name": "量子位",
+          "url": "https://www.qbitai.com/",
+          "frequency": "daily",
+          "priority": "scan",
+          "language": "zh",
+          "added": "2026-08-03"
+        },
+        {
+          "name": "机器之心",
+          "url": "https://www.jiqizhixin.com/",
+          "frequency": "daily",
+          "priority": "scan",
+          "language": "zh",
+          "added": "2026-08-03"
+        }
+      ],
+      "podcasts": [
+        {
+          "name": "Latent Space",
+          "url": "https://www.youtube.com/@LatentSpacePod",
+          "rssUrl": "https://pod2txt.vercel.app/api/feed?url=https://api.substack.com/feed/podcast/1084089.rss",
+          "frequency": "weekly",
+          "priority": "must_read",
+          "language": "en"
+        },
+        {
+          "name": "No Priors",
+          "url": "https://www.youtube.com/@NoPriorsPodcast",
+          "rssUrl": "https://feeds.megaphone.fm/nopriors",
+          "frequency": "weekly",
+          "priority": "must_read",
+          "language": "en"
+        },
+        {
+          "name": "Training Data",
+          "url": "https://www.youtube.com/playlist?list=PLOhHNjZItNnMm5tdW61JpnyxeYH5NDDx8",
+          "rssUrl": "https://feeds.megaphone.fm/trainingdata",
+          "frequency": "weekly",
+          "priority": "scan",
+          "language": "en"
+        },
+        {
+          "name": "Unsupervised Learning (Redpoint)",
+          "url": "https://www.youtube.com/@RedpointAI",
+          "rssUrl": "https://feeds.simplecast.com/dOSE_bdP",
+          "frequency": "weekly",
+          "priority": "scan",
+          "language": "en"
+        },
+        {
+          "name": "The MAD Podcast (Matt Turck)",
+          "url": "https://www.youtube.com/@DataDrivenNYC/videos",
+          "rssUrl": "https://anchor.fm/s/f2ee4948/podcast/rss",
+          "frequency": "biweekly",
+          "priority": "scan",
+          "language": "en"
+        },
+        {
+          "name": "AI & I (Every)",
+          "url": "https://www.youtube.com/playlist?list=PLuMcoKK9mKgHtW_o9h5sGO2vXrffKHwJL",
+          "rssUrl": "https://anchor.fm/s/ed1f5584/podcast/rss",
+          "frequency": "weekly",
+          "priority": "scan",
+          "language": "en"
+        },
+        {
+          "name": "Dwarkesh Podcast",
+          "url": "https://www.youtube.com/DwarkeshPatel",
+          "frequency": "biweekly",
+          "priority": "must_read",
+          "language": "en"
+        },
+        {
+          "name": "张小珺 Jùn｜商业访谈录",
+          "url": "https://www.youtube.com/@xiaojunpodcast",
+          "frequency": "weekly",
+          "priority": "must_read",
+          "language": "zh",
+          "added": "2026-04-17"
+        },
+        {
+          "name": "Stanford MS&E435｜Economics of the AI Supercycle",
+          "url": "https://www.youtube.com/playlist?list=PLoROMvodv4rOAe_DtQYOCKy6_x3irEYV1",
+          "rssUrl": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLoROMvodv4rOAe_DtQYOCKy6_x3irEYV1",
+          "frequency": "irregular",
+          "priority": "must_read",
+          "language": "en",
+          "added": "2026-08-03",
+          "content_type": "lecture_series"
+        }
+      ],
+      "key_signals": [
+        "新模型发布",
+        "重大benchmark突破",
+        "开源模型里程碑",
+        "Agent框架更新",
+        "AI编程工具重大更新",
+        "AI公司融资/IPO",
+        "AI监管政策",
+        "FSD/自动驾驶里程碑",
+        "Optimus/人形机器人进展"
+      ],
+      "tesla_tracking_note": "Tesla 的 FSD 和 Optimus 归在此赛道追踪。信号源：@Tesla, @elonmusk, @TeslaAIBot, @WholeMarsBlog"
+    },
+    "crypto_cross_finance": {
+      "track": "加密 × 美股交叉",
+      "x_lists": [
+        {
+          "name": "Crypto Builders",
+          "description": "加密基础设施和应用开发者",
+          "priority": "must_read",
+          "accounts": [
+            "@VitalikButerin",
+            "@balaboreal",
+            "@aaboreal"
+          ]
+        },
+        {
+          "name": "Ondo RWA Leader",
+          "description": "Ondo Finance 官方账号 — 代币化股票 / RWA 基建头号信号源",
+          "priority": "must_read",
+          "accounts": [
+            "@OndoFinance"
+          ],
+          "promoted_at": "2026-04-22"
+        },
+        {
+          "name": "DeFi / Stablecoin",
+          "description": "稳定币和 DeFi 生态（含 Tether CEO @paoloardoino — 个人号更新频率远超官方号）",
+          "priority": "must_read",
+          "accounts": [
+            "@CirclePay",
+            "@Tether_to",
+            "@MakerDAO",
+            "@paoloardoino"
+          ]
+        },
+        {
+          "name": "Prediction Markets",
+          "description": "预测市场生态",
+          "priority": "scan",
+          "accounts": [
+            "@Polymarket",
+            "@ManifoldMarkets"
+          ]
+        },
+        {
+          "name": "BTC 链上数据分析",
+          "description": "比特币链上数据 + 周期定位 — 中英双语组合，对位加密 × 美股交叉赛道的流动性/风险偏好传导判断",
+          "priority": "must_read",
+          "accounts": [
+            "@_Checkmatey_",
+            "@Murphychen888"
+          ],
+          "added": "2026-08-03"
+        }
+      ],
+      "newsletters": [
+        {
+          "name": "Bankless",
+          "url": "https://www.bankless.com/",
+          "frequency": "daily",
+          "priority": "must_read"
+        },
+        {
+          "name": "The Defiant",
+          "url": "https://thedefiant.io/",
+          "frequency": "daily",
+          "priority": "scan"
+        },
+        {
+          "name": "Milk Road",
+          "url": "https://www.milkroad.com/",
+          "frequency": "daily",
+          "priority": "scan"
+        }
+      ],
+      "key_signals": [
+        "稳定币法案进展",
+        "RWA代币化新项目",
+        "链上美股交易量",
+        "Agentic Payment产品发布",
+        "预测市场大事件",
+        "BTC与宏观相关性变化",
+        "加密ETF审批进展"
+      ]
+    },
+    "us_stocks": {
+      "track": "美股",
+      "x_lists": [
+        {
+          "name": "Macro Letters",
+          "description": "宏观分析专栏 — 高密度宏观数据/利率/流动性信号，区别于 Market Analysts 的市场快讯",
+          "priority": "must_read",
+          "accounts": [
+            "@KobeissiLetter"
+          ],
+          "added": "2026-05-20"
+        },
+        {
+          "name": "US Market Analysts",
+          "description": "美股分析师和宏观策略师",
+          "priority": "must_read",
+          "accounts": [
+            "@markets",
+            "@zerohedge"
+          ]
+        },
+        {
+          "name": "华语美股 KOL",
+          "description": "中文美股圈核心信息源 — 宏观周期 / AI 半导体基本面 / 交易情绪，中文语境下对 A 股港股资金联动的解读优于英文源",
+          "priority": "must_read",
+          "accounts": [
+            "@qinbafrank",
+            "@ShanghaoJin",
+            "@tig88411109",
+            "@ArtofSpecuycky",
+            "@JohnsonZ91127",
+            "@WallStreet0Name",
+            "@Michael_Liu93",
+            "@Money_or_Life_X"
+          ],
+          "added": "2026-08-03"
+        },
+        {
+          "name": "短线交易情绪",
+          "description": "高频短线/宏观剧本喊单流 — 用于读市场情绪拐点和散户预期差，不作为研究依据（无数据、立场反复、常无出处）",
+          "priority": "must_read",
+          "accounts": [
+            "@BabybusFL"
+          ],
+          "added": "2026-08-03"
+        },
+        {
+          "name": "Tesla 深度跟踪",
+          "description": "$TSLA 长期持有者 / 前 Tesla 工程师视角 — 对位 key_signals 的「TSLA财报及交付数据」与 tesla_tracking_note",
+          "priority": "scan",
+          "accounts": [
+            "@peng_hellen",
+            "@Tsla99T"
+          ],
+          "added": "2026-08-03"
+        }
+      ],
+      "newsletters": [
+        {
+          "name": "Stratechery (Ben Thompson)",
+          "url": "https://stratechery.com/",
+          "frequency": "3x_week",
+          "priority": "must_read"
+        },
+        {
+          "name": "The Information",
+          "url": "https://www.theinformation.com/",
+          "frequency": "daily",
+          "priority": "must_read"
+        },
+        {
+          "name": "Morning Brew",
+          "url": "https://www.morningbrew.com/",
+          "frequency": "daily",
+          "priority": "scan"
+        }
+      ],
+      "key_signals": [
+        "科技股财报季",
+        "美联储利率决议",
+        "重大并购",
+        "IPO/SPAC",
+        "关税/贸易政策",
+        "科技反垄断",
+        "TSLA财报及交付数据"
+      ],
+      "tesla_tracking_note": "Tesla 作为美股标的（$TSLA）在此赛道追踪财报、交付量、估值。信号源同 AI 前沿赛道"
+    },
+    "space_economy": {
+      "track": "太空经济",
+      "x_lists": [
+        {
+          "name": "SpaceX Official",
+          "description": "SpaceX 官方推号 — 连续 5 周太空赛道空白的终结源（GPS III-8 / Starship V3 / Falcon 9 回收一次补齐 3 条素材）",
+          "priority": "must_read",
+          "accounts": [
+            "@SpaceX"
+          ],
+          "promoted_at": "2026-04-22"
+        },
+        {
+          "name": "Elon Ecosystem",
+          "description": "@elonmusk — AI × 太空 × 美股三赛道共同入口（SpaceXAI × Cursor 并购 + Grok 4.3 + UAE 合作 + Whole Mars Robotaxi）",
+          "priority": "must_read",
+          "accounts": [
+            "@elonmusk"
+          ],
+          "promoted_at": "2026-04-22"
+        },
+        {
+          "name": "Space Industry",
+          "description": "太空产业其他核心玩家",
+          "priority": "scan",
+          "accounts": [
+            "@RocketLab",
+            "@blueorigin"
+          ]
+        }
+      ],
+      "newsletters": [
+        {
+          "name": "Payload Space",
+          "url": "https://payloadspace.com/",
+          "frequency": "daily",
+          "priority": "scan"
+        },
+        {
+          "name": "The Space Report",
+          "url": "https://www.thespacereport.org/",
+          "frequency": "weekly",
+          "priority": "scan"
+        }
+      ],
+      "key_signals": [
+        "SpaceX发射/星舰测试",
+        "卫星互联网进展",
+        "太空公司IPO",
+        "NASA合同",
+        "太空旅游里程碑"
+      ]
+    },
+    "one_person_company": {
+      "track": "一人公司方法论",
+      "x_lists": [
+        {
+          "name": "Indie Hackers & Creators",
+          "description": "独立开发者和创作者经济",
+          "priority": "must_read",
+          "accounts": [
+            "@levelsio",
+            "@marcaboreal",
+            "@naval"
+          ]
+        }
+      ],
+      "newsletters": [
+        {
+          "name": "Lenny's Newsletter",
+          "url": "https://www.lennysnewsletter.com/",
+          "frequency": "weekly",
+          "priority": "must_read"
+        },
+        {
+          "name": "Indie Hackers",
+          "url": "https://www.indiehackers.com/",
+          "frequency": "weekly",
+          "priority": "scan"
+        }
+      ],
+      "key_signals": [
+        "AI工具降低创业门槛",
+        "独立开发者成功案例",
+        "Creator经济数据",
+        "新的no-code/low-code工具",
+        "一人公司收入里程碑"
+      ]
+    }
+  },
+  "cross_domain_signals": {
+    "description": "跨领域交叉信号 — 你的差异化来源，优先级最高",
+    "watch_for": [
+      "AI × Crypto: Agent 支付、AI 生成的链上内容、去中心化 AI 训练",
+      "AI × 美股: AI 公司财报、AI 对传统产业的估值影响",
+      "Crypto × 美股: 加密 ETF、链上美股、稳定币对美元的影响",
+      "AI × 一人公司: AI 工具让个人完成团队级别的工作",
+      "Tesla × 多赛道: FSD/Optimus(AI前沿) + $TSLA(美股) + Elon生态(太空) + 能源储能",
+      "太空 × 投资: SpaceX 估值、太空相关上市公司、卫星数据商业化",
+      ""
+    ]
+  }
+}
